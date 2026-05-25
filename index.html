@@ -573,6 +573,29 @@
     opacity: 0.5;
     padding-bottom: 18px;
   }
+
+  /* ─── GAME MASTER PANEL ─── */
+  .gm-preview-btn {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(120,100,200,0.25);
+    color: #c0a8f8;
+    border-radius: 10px;
+    padding: 11px 16px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    text-align: left;
+    transition: all .2s;
+    font-family: inherit;
+  }
+  .gm-preview-btn:hover {
+    background: rgba(120,100,200,0.15);
+    border-color: rgba(120,100,200,0.5);
+    color: #e0d0ff;
+  }
+  #gmModal {
+    align-items: center;
+    justify-content: center;
+  }
 </style>
 </head>
 <body>
@@ -643,6 +666,155 @@
   <p style="margin-top:20px;color:#7060a0;font-size:0.8rem;font-style:italic;">
     Complete all 4 quests to reveal the baby's gender...
   </p>
+
+  <!-- Hidden GM access button -->
+  <div style="position:absolute;bottom:18px;right:18px;">
+    <button onclick="openGMLogin()" title="Game Master Access"
+      style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);
+             color:#4a3a6a;border-radius:50%;width:34px;height:34px;font-size:0.95rem;
+             cursor:pointer;transition:all .3s;line-height:1"
+      onmouseover="this.style.color='#c8b8e8';this.style.borderColor='rgba(200,184,232,0.3)'"
+      onmouseout="this.style.color='#4a3a6a';this.style.borderColor='rgba(255,255,255,0.08)'">
+      &#9881;
+    </button>
+  </div>
+</div>
+
+<!-- GM LOGIN MODAL -->
+<div id="gmModal" style="display:none;position:fixed;inset:0;z-index:999;
+     background:rgba(10,5,25,0.88);backdrop-filter:blur(8px);
+     display:none;align-items:center;justify-content:center">
+  <div style="background:linear-gradient(135deg,#1a0f35,#0d0820);
+       border:1px solid rgba(240,192,96,0.3);border-radius:20px;
+       padding:32px 28px;max-width:340px;width:90%;text-align:center;position:relative">
+    <div style="font-size:2rem;margin-bottom:8px">🔐</div>
+    <div style="font-family:'Space Mono',monospace;color:var(--gold);font-size:1rem;margin-bottom:4px">
+      GAME MASTER ACCESS
+    </div>
+    <div style="color:#9080b0;font-size:0.78rem;margin-bottom:20px">
+      Enter your secret access code
+    </div>
+    <input id="gmCodeInput" type="password" placeholder="Access code..."
+      style="width:100%;box-sizing:border-box;background:rgba(255,255,255,0.06);
+             border:1px solid rgba(200,184,232,0.25);border-radius:10px;
+             padding:12px 16px;color:#e8d8f8;font-family:'Space Mono',monospace;
+             font-size:0.9rem;outline:none;margin-bottom:12px;text-align:center"
+      onkeydown="if(event.key==='Enter') verifyGMCode()"/>
+    <div id="gmCodeError" style="color:#e05070;font-size:0.78rem;min-height:18px;margin-bottom:10px"></div>
+    <div style="display:flex;gap:10px;justify-content:center">
+      <button onclick="verifyGMCode()"
+        style="background:linear-gradient(135deg,var(--gold),#c87820);color:#1a0f30;
+               border:none;border-radius:10px;padding:10px 24px;font-weight:700;
+               font-family:'Space Mono',monospace;cursor:pointer;font-size:0.85rem">
+        ENTER ✦
+      </button>
+      <button onclick="closeGMLogin()"
+        style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);
+               color:#9080b0;border-radius:10px;padding:10px 20px;cursor:pointer;font-size:0.85rem">
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- GM PANEL SCREEN -->
+<div class="screen" id="gmPanel">
+  <button class="back-btn" onclick="showScreen('landing')">← Back</button>
+  <div class="quest-screen" style="max-width:560px">
+
+    <div class="quest-header">
+      <div class="quest-number" style="color:var(--gold)">⚙️ GAME MASTER</div>
+      <div class="quest-title" style="font-size:1.2rem">Settings & Preview</div>
+      <div class="quest-desc">Only you can see this panel, Ninong Pogi 👑</div>
+    </div>
+
+    <!-- UNLOCK OVERRIDE -->
+    <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(240,192,96,0.2);
+         border-radius:14px;padding:18px;margin-bottom:16px">
+      <div style="color:var(--gold);font-family:'Space Mono',monospace;font-size:0.85rem;margin-bottom:10px">
+        🔒 UNLOCK CONTROL
+      </div>
+      <div style="color:#c8b8e8;font-size:0.82rem;margin-bottom:14px">
+        Scheduled: <strong style="color:var(--gold)">May 26, 2026 · 8:30 PM Dubai</strong>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button onclick="gmForceUnlock()"
+          style="background:rgba(80,200,140,0.15);border:1px solid rgba(80,200,140,0.4);
+                 color:#60e0a0;border-radius:10px;padding:9px 18px;cursor:pointer;font-size:0.82rem;flex:1">
+          ✅ Force Unlock Now
+        </button>
+        <button onclick="gmForceLock()"
+          style="background:rgba(220,80,80,0.1);border:1px solid rgba(220,80,80,0.3);
+                 color:#e08080;border-radius:10px;padding:9px 18px;cursor:pointer;font-size:0.82rem;flex:1">
+          🔒 Re-Lock Game
+        </button>
+      </div>
+      <div id="gmUnlockStatus" style="font-size:0.75rem;color:#9080b0;margin-top:10px;font-family:'Space Mono',monospace;text-align:center"></div>
+    </div>
+
+    <!-- QUEST PROGRESS OVERVIEW -->
+    <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(120,100,200,0.2);
+         border-radius:14px;padding:18px;margin-bottom:16px">
+      <div style="color:#c0a8f8;font-family:'Space Mono',monospace;font-size:0.85rem;margin-bottom:12px">
+        📊 QUEST PROGRESS
+      </div>
+      <div id="gmProgressList" style="display:flex;flex-direction:column;gap:8px"></div>
+      <button onclick="gmResetAll()"
+        style="margin-top:14px;width:100%;background:rgba(220,80,80,0.1);
+               border:1px solid rgba(220,80,80,0.3);color:#e08080;
+               border-radius:10px;padding:10px;cursor:pointer;font-size:0.82rem">
+        🔄 Reset ALL Quest Progress
+      </button>
+    </div>
+
+    <!-- SECRET CODES CHEAT SHEET -->
+    <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(64,200,180,0.2);
+         border-radius:14px;padding:18px;margin-bottom:16px">
+      <div style="color:var(--teal);font-family:'Space Mono',monospace;font-size:0.85rem;margin-bottom:12px">
+        🗝️ SECRET CODES
+      </div>
+      <div style="font-family:'Space Mono',monospace;font-size:0.82rem;line-height:2.2;color:#c8b8e8">
+        <div>Quest 1 → <strong style="color:var(--gold)">SEPTEMBER</strong> <span style="color:#6a5a8a">(Father's birth month)</span></div>
+        <div>Quest 2 → <strong style="color:var(--gold)">FEBRUARY</strong> <span style="color:#6a5a8a">(Mother's birth month)</span></div>
+        <div>Quest 3 → <strong style="color:var(--gold)">SINGKAMAS</strong> <span style="color:#6a5a8a">(First pregnancy craving)</span></div>
+        <div>Quest 4 → <strong style="color:var(--gold)">29</strong> <span style="color:#6a5a8a">(Age when pregnant)</span></div>
+      </div>
+    </div>
+
+    <!-- QUEST PREVIEWS -->
+    <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(120,100,200,0.2);
+         border-radius:14px;padding:18px;margin-bottom:16px">
+      <div style="color:#c0a8f8;font-family:'Space Mono',monospace;font-size:0.85rem;margin-bottom:12px">
+        👁️ QUEST PREVIEWS
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <button onclick="gmPreview(1)" class="gm-preview-btn">🎵 Quest 1 — The Lullaby</button>
+        <button onclick="gmPreview(2)" class="gm-preview-btn">🍼 Quest 2 — Baby Toolkit Trivia</button>
+        <button onclick="gmPreview(3)" class="gm-preview-btn">🎯 Quest 3 — Bet on Your Baby</button>
+        <button onclick="gmPreview(4)" class="gm-preview-btn">👶 Quest 4 — Who's Most Likely?</button>
+        <button onclick="gmPreview('final')" class="gm-preview-btn">🌟 Final Quest — The Reveal</button>
+      </div>
+    </div>
+
+    <!-- ANAGRAM ANSWER KEY -->
+    <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(64,200,180,0.2);
+         border-radius:14px;padding:18px">
+      <div style="color:var(--teal);font-family:'Space Mono',monospace;font-size:0.85rem;margin-bottom:12px">
+        🔀 ANAGRAM ANSWER KEY (Quest 2)
+      </div>
+      <div style="font-size:0.76rem;line-height:2;color:#b0a0d0;font-family:'Space Mono',monospace">
+        <div>YABB SEWIP → <strong style="color:#e8d8a0">Baby Wipes</strong></div>
+        <div>YABB LIAN MERMRIT → <strong style="color:#e8d8a0">Baby Nail Trimmer</strong></div>
+        <div>LAGITID YABB METROMHETER → <strong style="color:#e8d8a0">Digital Baby Thermometer</strong></div>
+        <div>RUPB HOTLC → <strong style="color:#e8d8a0">Burp Cloth</strong></div>
+        <div>TREEHE → <strong style="color:#e8d8a0">Teether</strong></div>
+        <div>NASLA TRAROSIPA → <strong style="color:#e8d8a0">Nasal Aspirator</strong></div>
+        <div>PARDIE GAB → <strong style="color:#e8d8a0">Diaper Bag</strong></div>
+        <div>YABB ODDEH LEWOT → <strong style="color:#e8d8a0">Baby Hooded Towel</strong></div>
+      </div>
+    </div>
+
+  </div>
 </div>
 
 <!-- ════════════════════════════════════════
@@ -1699,6 +1871,113 @@ setInterval(updateCountdown, 1000);
 loadProgress();
 // Initialize song tabs
 switchSong(1);
+
+
+// ─── GAME MASTER ───
+const GM_CODE = 'plusone';
+let gmForceUnlocked = false;
+
+function openGMLogin(){
+  const modal = document.getElementById('gmModal');
+  modal.style.display = 'flex';
+  document.getElementById('gmCodeInput').value = '';
+  document.getElementById('gmCodeError').textContent = '';
+  setTimeout(()=> document.getElementById('gmCodeInput').focus(), 100);
+}
+
+function closeGMLogin(){
+  document.getElementById('gmModal').style.display = 'none';
+}
+
+function verifyGMCode(){
+  const val = document.getElementById('gmCodeInput').value.trim().toLowerCase();
+  if(val === GM_CODE){
+    closeGMLogin();
+    showGMPanel();
+  } else {
+    document.getElementById('gmCodeError').textContent = '✗ Incorrect code. Try again.';
+    document.getElementById('gmCodeInput').value = '';
+    document.getElementById('gmCodeInput').focus();
+  }
+}
+
+function showGMPanel(){
+  refreshGMProgress();
+  const status = document.getElementById('gmUnlockStatus');
+  const now = new Date();
+  if(gmForceUnlocked){
+    status.textContent = '✅ Manually unlocked by Game Master';
+    status.style.color = '#60e0a0';
+  } else if(now >= UNLOCK_TIME_UTC){
+    status.textContent = '✅ Unlocked automatically (time reached)';
+    status.style.color = '#60e0a0';
+  } else {
+    const diff = UNLOCK_TIME_UTC - now;
+    const h = Math.floor(diff/3600000);
+    const m = Math.floor((diff%3600000)/60000);
+    status.textContent = '🔒 Locked — opens in ' + h + 'h ' + m + 'm';
+    status.style.color = '#e08080';
+  }
+  showScreen('gmPanel');
+}
+
+function gmForceUnlock(){
+  gmForceUnlocked = true;
+  // Show begin block on landing
+  document.getElementById('countdownBlock').style.display = 'none';
+  document.getElementById('beginBlock').style.display = 'block';
+  document.getElementById('gmUnlockStatus').textContent = '✅ Manually unlocked by Game Master';
+  document.getElementById('gmUnlockStatus').style.color = '#60e0a0';
+  showToast('🔓 Game unlocked for players!');
+}
+
+function gmForceLock(){
+  gmForceUnlocked = false;
+  // Re-evaluate normally
+  updateCountdown();
+  document.getElementById('gmUnlockStatus').textContent = '🔒 Re-locked. Auto-unlock timer running.';
+  document.getElementById('gmUnlockStatus').style.color = '#e08080';
+  showToast('🔒 Game re-locked!');
+}
+
+function gmPreview(n){
+  if(n === 'final'){
+    showScreen('finalQuest');
+  } else {
+    showScreen('quest' + n);
+  }
+}
+
+function refreshGMProgress(){
+  const list = document.getElementById('gmProgressList');
+  const names = {
+    1: '🎵 Quest 1 — The Lullaby',
+    2: '🍼 Quest 2 — Baby Toolkit Trivia',
+    3: '🎯 Quest 3 — Bet on Your Baby',
+    4: '👶 Quest 4 — Who's Most Likely?'
+  };
+  list.innerHTML = '';
+  [1,2,3,4].forEach(n => {
+    const done = state.completed[n];
+    const row = document.createElement('div');
+    row.style.cssText = 'display:flex;justify-content:space-between;align-items:center;' +
+      'background:rgba(255,255,255,0.03);border-radius:8px;padding:8px 12px;font-size:0.82rem';
+    row.innerHTML = '<span style="color:#c8b8e8">' + names[n] + '</span>' +
+      '<span style="font-family:Space Mono,monospace;color:' + (done ? '#60e0a0' : '#e08080') + '">' +
+      (done ? '✅ Done' : '⏳ Pending') + '</span>';
+    list.appendChild(row);
+  });
+}
+
+function gmResetAll(){
+  if(!confirm('Reset ALL quest progress? This cannot be undone.')) return;
+  [1,2,3,4].forEach(n => { state.completed[n] = false; state.collectedWords[n] = ''; });
+  saveProgress();
+  refreshGMProgress();
+  updateQuestHub && updateQuestHub();
+  showToast('🔄 All quest progress reset!');
+}
+
 </script>
 </body>
 </html>
