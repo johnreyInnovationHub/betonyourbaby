@@ -857,8 +857,8 @@
   <div class="quest-screen" style="max-width:740px">
     <div class="quest-header">
       <div class="quest-number">QUEST 01</div>
-      <div class="quest-title">🎵 The Lullaby</div>
-      <div class="quest-desc">Sing along to all 3 songs, then answer each question to collect your quest code!</div>
+      <div class="quest-title">🎵 The Singing Mami and Papi</div>
+      <div class="quest-desc">Complete all 3 song challenges. Players only have 3 tries to encode their answers!</div>
     </div>
 
     <!-- SONG PROGRESS -->
@@ -871,71 +871,83 @@
     <!-- ── SONG 1: Old McDonald ── -->
     <div class="song-panel" id="spanel1">
       <div class="song-label">🐄 Song 1 of 3</div>
-      <h3 class="song-title-text">Old McDonald Had a Farm</h3>
-      <p class="sing-instruction">🎤 Everyone sing along together!</p>
+      <h3 class="song-title-text">Old McDonald Had A Farm</h3>
+      <p class="sing-instruction">🎤 Challenge: Enumerate the animals in proper order mentioned in the song.</p>
       <div class="yt-wrap">
-        <iframe src="https://www.youtube.com/embed/5VYAaFKNHRo?rel=0" title="Old McDonald Had a Farm" frameborder="0" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/_6HzoUcx3eo?rel=0" title="Old McDonald Had A Farm" frameborder="0" allowfullscreen></iframe>
       </div>
       <div class="song-question-box" id="sq1" style="display:none">
-        <p class="sq-label">🐾 Song 1 Question:</p>
-        <p class="sq-text">How many animals are there in the song?</p>
-        <div class="sq-options">
-          <button class="answer-btn" onclick="checkSongQ(1,this,'3')">3 animals</button>
-          <button class="answer-btn" onclick="checkSongQ(1,this,'5')">5 animals</button>
-          <button class="answer-btn" onclick="checkSongQ(1,this,'6')">6 animals</button>
-          <button class="answer-btn" onclick="checkSongQ(1,this,'8')">8 animals</button>
-        </div>
-        <div class="feedback" id="sq1Feedback"></div>
-      </div>
-      <div style="text-align:center;margin-top:16px" id="sq1trigger">
-        <button class="btn-sm" onclick="revealSongQ(1)">We're done singing! Answer the question 🐄</button>
-      </div>
-    </div>
-
-    <!-- ── SONG 2: Wheels on the Bus ── -->
-    <div class="song-panel" id="spanel2" style="display:none">
-      <div class="song-label">🚌 Song 2 of 3</div>
-      <h3 class="song-title-text">The Wheels on the Bus</h3>
-      <p class="sing-instruction">🎤 Everyone sing along together!</p>
-      <div class="yt-wrap">
-        <iframe src="https://www.youtube.com/embed/e_04ZrNroTo?rel=0" title="Wheels on the Bus" frameborder="0" allowfullscreen></iframe>
-      </div>
-      <div class="song-question-box" id="sq2" style="display:none">
-        <p class="sq-label">🚌 Song 2 Question:</p>
-        <p class="sq-text">Who is the driver of the Bus?</p>
+        <p class="sq-label">🐾 Song 1 Challenge:</p>
+        <p class="sq-text">Enter the animals in the correct order mentioned in the song.</p>
         <div class="sq-options">
           <div class="riddle-input-wrap">
-            <input class="riddle-input" id="busDriverInput" type="text" placeholder="Type the driver's name..."
-              oninput="this.value=this.value.charAt(0).toUpperCase()+this.value.slice(1)"/>
+            <input class="riddle-input" id="song1Answer" type="text" placeholder="Pig, Duck, Horse..." />
             <br><br>
-            <button class="btn-sm" onclick="checkBusDriver()">Submit Answer 🚌</button>
+            <button class="btn-sm">Submit Answer 🐄</button>
           </div>
         </div>
-        <div class="feedback" id="sq2Feedback"></div>
+        <div class="feedback" id="sq1Feedback"></div>
+        <p style="margin-top:10px;color:var(--teal);font-size:0.8rem">
+          Correct Answer: Pig, Duck, Horse, Sheep, Cow, Turkey
+        </p>
       </div>
-      <div style="text-align:center;margin-top:16px" id="sq2trigger">
-        <button class="btn-sm" onclick="revealSongQ(2)">We're done singing! Answer the question 🚌</button>
+      <div style="text-align:center;margin-top:16px" id="sq1trigger">
+        <button class="btn-sm" onclick="revealSongQ(1)">We're done singing! Start the challenge 🐄</button>
       </div>
     </div>
 
-    <!-- ── SONG 3: Sa Ugoy ng Duyan ── -->
+    <!-- ── SONG 2: Jack and Jill ── -->
+    <div class="song-panel" id="spanel2" style="display:none">
+      <div class="song-label">🪣 Song 2 of 3</div>
+      <h3 class="song-title-text">Jack and Jill</h3>
+      <p class="sing-instruction">🎤 Answer all the questions correctly!</p>
+      <div class="yt-wrap">
+        <iframe src="https://www.youtube.com/embed/EFj0K38sPmA?rel=0" title="Jack and Jill" frameborder="0" allowfullscreen></iframe>
+      </div>
+      <div class="song-question-box" id="sq2" style="display:none">
+        <p class="sq-label">🪣 Song 2 Q & A:</p>
+        <p class="sq-text">
+          1. Who fell first? <strong>(Jill)</strong><br><br>
+          2. What is the use of the pail of water they fetch? <strong>(bath)</strong><br><br>
+          3. What is the color of Jill's dress? <strong>(Yellow)</strong>
+        </p>
+        <div class="feedback info" style="display:block">
+          Players only have 3 tries to answer.
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:16px" id="sq2trigger">
+        <button class="btn-sm" onclick="revealSongQ(2)">We're done singing! Start Q & A 🪣</button>
+      </div>
+    </div>
+
+    <!-- ── SONG 3: Sa Ugoy ng Duyan ── --> Sa Ugoy ng Duyan ── -->
     <div class="song-panel" id="spanel3" style="display:none">
       <div class="song-label">🌙 Song 3 of 3</div>
       <h3 class="song-title-text">Sa Ugoy ng Duyan</h3>
       <p class="sing-instruction">🎤 Everyone sing along together!</p>
       <div class="yt-wrap">
-        <iframe src="https://www.youtube.com/embed/Cs3EHBPp4HA?rel=0" title="Sa Ugoy ng Duyan" frameborder="0" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/4kOPIecQWdY?rel=0" title="Sa Ugoy ng Duyan" frameborder="0" allowfullscreen></iframe>
       </div>
       <div class="song-question-box" id="sq3" style="display:none">
-        <p class="sq-label">🌙 Song 3 Question:</p>
-        <p class="sq-text">What is the English word for <em>"Duyan"</em>?</p>
-        <div class="sq-options">
-          <button class="answer-btn" onclick="checkSongQ(3,this,'Hammock')">Hammock</button>
-          <button class="answer-btn" onclick="checkSongQ(3,this,'Cradle')">Cradle</button>
-          <button class="answer-btn" onclick="checkSongQ(3,this,'Swing')">Swing</button>
-          <button class="answer-btn" onclick="checkSongQ(3,this,'Nest')">Nest</button>
+        <p class="sq-label">🌙 Song 3 Challenge:</p>
+        <p class="sq-text">
+          Complete the missing lyrics:<br><br>
+
+          [Chorus]<br>
+          Sana'y 'di _________ <strong>(magmaliw)</strong> ang dati kong araw<br>
+          Nang munti pang bata sa piling ni nanay<br>
+          Nais kong maulit ang awit ni _______ <strong>(inang)</strong> mahal<br>
+          Awit ng pag-ibig habang ako'y nasa _____ <strong>(duyan)</strong><br><br>
+
+          [Verse 1]<br>
+          Sa aking pagtulog na labis ang _______ <strong>(himbing)</strong><br>
+          Ang bantay ko'y _______ <strong>(tala)</strong>, ang _______ <strong>(tanod)</strong> ko'y bituin<br>
+          Sa piling ni nanay, langit ay buhay<br>
+          Puso kong may _______ <strong>(dusa)</strong> sabik sa ugoy ng duyan
+        </p>
+        <div class="feedback info" style="display:block">
+          Players only have 3 tries to answer.
         </div>
-        <div class="feedback" id="sq3Feedback"></div>
       </div>
       <div style="text-align:center;margin-top:16px" id="sq3trigger">
         <button class="btn-sm" onclick="revealSongQ(3)">We're done singing! Answer the question 🌙</button>
@@ -962,11 +974,11 @@
   <div class="quest-screen">
     <div class="quest-header">
       <div class="quest-number">QUEST 02</div>
-      <div class="quest-title">🍼 Baby Toolkit Trivia</div>
-      <div class="quest-desc">Unscramble the anagram to find the baby item! Answer all 8 to unlock your word.</div>
+      <div class="quest-title">🎭 Charades</div>
+      <div class="quest-desc">Words must come from the game master. Papi Ramon should execute the actions while the rest guess the word.</div>
     </div>
 
-    <div class="score-display">Score: <span id="triviaScore">0</span> / 8</div>
+    <div class="score-display">5 Charades Words</div>
 
     <div id="triviaQuestions">
       <!-- TQ1 -->
