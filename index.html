@@ -30,1926 +30,475 @@
 
   /* ─── STARFIELD ─── */
   #starfield {
-    position: fixed; inset:0; pointer-events:none; z-index:0;
-    overflow: hidden;
-  }
-  .star {
-    position:absolute; background:white; border-radius:50%;
-    animation: twinkle var(--d,3s) ease-in-out infinite;
-    opacity:0;
-  }
-  @keyframes twinkle {
-    0%,100%{opacity:0} 50%{opacity:var(--o,0.8)}
+    position: fixed; inset:0; pointer-events:none; z-index:0; opacity:0.6;
   }
 
-  /* ─── SCREENS ─── */
-  .screen {
-    display:none; position:relative; z-index:1;
-    min-height:100vh; padding:20px;
-    flex-direction:column; align-items:center; justify-content:center;
-  }
-  .screen.active { display:flex; }
-
-  /* ─── LANDING ─── */
-  #landing {
-    text-align:center;
-    background: radial-gradient(ellipse at 50% 30%, #2d0b5e 0%, #1a0a2e 70%);
-  }
-  .moon-glow {
-    width:160px; height:160px; border-radius:50%;
-    background: radial-gradient(circle at 40% 40%, #fff9e0, #f0c060 50%, #c07020);
-    box-shadow: 0 0 60px 20px rgba(240,192,96,0.4), 0 0 120px 40px rgba(240,192,96,0.2);
-    margin:0 auto 30px;
-    animation: moonPulse 4s ease-in-out infinite;
-    position:relative; overflow:hidden;
-  }
-  .moon-glow::after {
-    content:'🍼'; font-size:70px; position:absolute;
-    top:50%; left:50%; transform:translate(-50%,-50%);
-  }
-  @keyframes moonPulse {
-    0%,100%{box-shadow:0 0 60px 20px rgba(240,192,96,0.4),0 0 120px 40px rgba(240,192,96,0.2)}
-    50%{box-shadow:0 0 80px 30px rgba(240,192,96,0.6),0 0 160px 60px rgba(240,192,96,0.3)}
-  }
-  h1.title {
-    font-family:'Cinzel Decorative',serif;
-    font-size:clamp(1.4rem,5vw,2.8rem);
-    color: var(--gold);
-    text-shadow: 0 0 30px rgba(240,192,96,0.6);
-    margin-bottom:8px; line-height:1.2;
-  }
-  .subtitle {
-    font-size:1rem; color:#c8b8e8; margin-bottom:6px;
-    font-style:italic;
-  }
-  .parents-tag {
-    font-family:'Cinzel Decorative',serif;
-    font-size:clamp(0.85rem,2.5vw,1.1rem);
-    color:var(--rose); margin-bottom:30px;
-    text-shadow:0 0 15px rgba(232,100,154,0.5);
+  /* ─── APP WRAPPER ─── */
+  #app {
+    position: relative; z-index:1; max-width:600px; margin:0 auto; padding:20px; min-height:100vh;
+    display:flex; flex-direction:column; justify-content:center;
   }
 
-  .attendee-cards {
-    display:flex; flex-wrap:wrap; gap:12px;
-    justify-content:center; margin-bottom:35px;
+  /* ─── HEADER BAR ─── */
+  header {
+    text-align:center; margin-bottom:20px; border-bottom:1px solid rgba(240,192,96,0.2); padding-bottom:15px;
   }
-  .attendee-card {
-    background:rgba(255,255,255,0.07);
-    border:1px solid rgba(240,192,96,0.3);
-    border-radius:16px; padding:12px 20px;
-    backdrop-filter:blur(8px);
-    transition:all 0.3s;
+  h1 { font-family:'Cinzel Decorative', serif; font-size:1.6rem; color:var(--gold); text-shadow:0 0 8px rgba(240,192,96,0.4); margin-bottom:4px; }
+  .subtitle { font-size:0.85rem; letter-spacing:2px; color:var(--pink); text-transform:uppercase; font-weight:600; }
+
+  /* ─── CARD LAYOUT ─── */
+  .card {
+    background: rgba(30, 15, 55, 0.75);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(240,192,96,0.25);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 10px 30px var(--shadow);
+    display: none;
+    animation: fadeIn 0.4s ease forwards;
   }
-  .attendee-card:hover {
-    background:rgba(240,192,96,0.12);
-    border-color:rgba(240,192,96,0.6);
-    transform:translateY(-3px);
+  .card.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity:0; transform:translateY(10px); }
+    to { opacity:1; transform:translateY(0); }
   }
-  .attendee-card .role { font-size:0.7rem; color:#a090c0; text-transform:uppercase; letter-spacing:2px; }
-  .attendee-card .name { font-size:1rem; color:var(--cream); font-weight:600; }
-  .attendee-card .badge { font-size:0.7rem; color:var(--gold); margin-top:2px; }
+
+  /* ─── TYPOGRAPHY & ELEMENTS ─── */
+  h2 { font-family:'Cinzel Decorative', serif; font-size:1.3rem; color:var(--gold); margin-bottom:16px; display:flex; align-items:center; gap:8px; }
+  p { font-size:0.95rem; line-height:1.6; margin-bottom:16px; color:#e2d9f3; }
+  .italic { font-style: italic; color: #bcaed4; }
+  .highlight { color: var(--gold); font-weight: 600; }
+  .error-text { color: #ff6b6b; font-size: 0.85rem; margin-top: 4px; font-weight: 600; }
 
   /* ─── BUTTONS ─── */
-  .btn {
-    font-family:'Cinzel Decorative',serif;
-    border:none; cursor:pointer;
-    border-radius:50px; transition:all 0.3s;
-    letter-spacing:1px; position:relative; overflow:hidden;
-  }
-  .btn-primary {
-    background: linear-gradient(135deg, #8b2fc9, #e8649a);
-    color:white; padding:16px 40px; font-size:1rem;
-    box-shadow:0 0 30px rgba(232,100,154,0.4);
-  }
-  .btn-primary:hover {
-    transform:scale(1.05);
-    box-shadow:0 0 50px rgba(232,100,154,0.7);
-  }
-  .btn-primary::before {
-    content:''; position:absolute; inset:0;
-    background:linear-gradient(135deg,transparent 0%,rgba(255,255,255,0.15) 50%,transparent 100%);
-    transform:translateX(-100%); transition:transform 0.5s;
-  }
-  .btn-primary:hover::before { transform:translateX(100%); }
-
-  .btn-quest {
-    background:transparent;
-    border:2px solid var(--gold);
-    color:var(--gold); padding:14px 28px; font-size:0.85rem;
-    margin:6px; min-width:200px;
-  }
-  .btn-quest:hover, .btn-quest.unlocked {
-    background:rgba(240,192,96,0.15);
-    box-shadow:0 0 20px rgba(240,192,96,0.3);
-  }
-  .btn-quest.completed {
-    border-color: var(--teal); color:var(--teal);
-    background:rgba(78,205,196,0.1);
-  }
-  .btn-quest.locked {
-    opacity:0.4; cursor:not-allowed;
-    border-color:#555; color:#555;
-  }
-
-  .btn-sm {
-    padding:10px 24px; font-size:0.8rem;
-    background:linear-gradient(135deg,#3d1a6e,#8b2fc9);
-    color:var(--gold); border:1px solid var(--gold);
-    border-radius:50px; cursor:pointer;
-    font-family:'Cinzel Decorative',serif;
-    transition:all 0.3s;
-  }
-  .btn-sm:hover { transform:scale(1.05); box-shadow:0 0 20px rgba(240,192,96,0.4); }
-
-  /* ─── QUEST HUB ─── */
-  #hub {
-    background: radial-gradient(ellipse at 20% 50%, #1a0a2e 0%, #0d0520 100%);
-  }
-  .hub-header { text-align:center; margin-bottom:30px; }
-  .collected-words {
-    display:flex; flex-wrap:wrap; gap:8px;
-    justify-content:center; margin:15px 0 30px;
-  }
-  .word-chip {
-    background:rgba(240,192,96,0.15);
-    border:1px solid rgba(240,192,96,0.5);
-    color:var(--gold); padding:6px 16px;
-    border-radius:20px; font-family:'Space Mono',monospace;
-    font-size:0.8rem; animation:chipPop 0.4s cubic-bezier(0.34,1.56,0.64,1);
-  }
-  @keyframes chipPop { from{transform:scale(0)} to{transform:scale(1)} }
-  .word-placeholder {
-    background:rgba(255,255,255,0.05);
-    border:1px dashed rgba(255,255,255,0.2);
-    color:#555; padding:6px 16px; border-radius:20px;
-    font-size:0.8rem; font-family:'Space Mono',monospace;
-  }
-
-  /* ─── QUEST SCREEN ─── */
-  .quest-screen {
-    max-width:700px; width:100%; margin:0 auto;
-  }
-  .quest-header {
-    text-align:center; margin-bottom:25px;
-    padding:20px;
-    background:rgba(255,255,255,0.04);
-    border-radius:20px; border:1px solid rgba(240,192,96,0.2);
-  }
-  .quest-number {
-    font-family:'Space Mono',monospace;
-    color:var(--teal); font-size:0.8rem;
-    letter-spacing:3px; margin-bottom:6px;
-  }
-  .quest-title {
-    font-family:'Cinzel Decorative',serif;
-    font-size:clamp(1.2rem,4vw,1.8rem);
-    color:var(--gold);
-  }
-  .quest-desc {
-    color:#b0a0d0; margin-top:8px; font-style:italic; font-size:0.9rem;
-  }
-
-  /* ─── LULLABY ─── */
-  .lullaby-clue {
-    background:rgba(255,255,255,0.05);
-    border-left:3px solid var(--rose);
-    padding:20px; border-radius:0 12px 12px 0;
-    margin:20px 0; font-style:italic;
-    line-height:1.8; font-size:1rem;
-    color:#e0d0f0;
-  }
-  .lullaby-answer {
-    display:flex; gap:10px; flex-wrap:wrap;
-    justify-content:center; margin:20px 0;
-  }
-  .answer-btn {
-    background:rgba(255,255,255,0.07);
-    border:2px solid rgba(232,100,154,0.4);
-    color:var(--cream); padding:12px 24px;
-    border-radius:12px; cursor:pointer;
-    font-size:0.95rem; transition:all 0.3s;
-    font-family:'Lora',serif;
-  }
-  .answer-btn:hover {
-    background:rgba(232,100,154,0.15);
-    border-color:var(--rose);
-    transform:scale(1.03);
-  }
-  .answer-btn.selected { background:rgba(232,100,154,0.3); border-color:var(--rose); }
-  .answer-btn.correct { background:rgba(78,205,196,0.3); border-color:var(--teal); color:var(--teal); }
-  .answer-btn.wrong { background:rgba(255,80,80,0.2); border-color:#f55; color:#f99; }
-
-  /* ─── BABY TOOLKIT ─── */
-  .toolkit-grid {
-    display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
-    gap:12px; margin:20px 0;
-  }
-  .tool-card {
-    background:rgba(255,255,255,0.06);
-    border:2px solid rgba(255,255,255,0.1);
-    border-radius:16px; padding:16px; text-align:center;
-    cursor:pointer; transition:all 0.3s;
-    user-select:none;
-  }
-  .tool-card:hover { transform:translateY(-4px); border-color:var(--gold); }
-  .tool-card.selected { border-color:var(--teal); background:rgba(78,205,196,0.1); }
-  .tool-card .icon { font-size:2rem; margin-bottom:6px; }
-  .tool-card .label { font-size:0.8rem; color:#b0a0c8; }
-
-  /* ─── QUIZ ─── */
-  .quiz-q {
-    background:rgba(255,255,255,0.05);
-    border:1px solid rgba(240,192,96,0.2);
-    border-radius:16px; padding:20px; margin-bottom:20px;
-  }
-  .quiz-q .q-text {
-    font-size:1rem; margin-bottom:14px; color:var(--cream); line-height:1.5;
-  }
-  .quiz-options { display:flex; flex-direction:column; gap:8px; }
-  .quiz-opt {
-    background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15);
-    border-radius:10px; padding:10px 16px; cursor:pointer;
-    transition:all 0.25s; font-size:0.9rem; text-align:left;
-    color:var(--cream);
-  }
-  .quiz-opt:hover { background:rgba(240,192,96,0.1); border-color:var(--gold); }
-  .quiz-opt.correct { background:rgba(78,205,196,0.2); border-color:var(--teal); color:var(--teal); }
-  .quiz-opt.wrong { background:rgba(255,80,80,0.15); border-color:#f55; color:#f99; }
-  .score-display {
-    font-family:'Space Mono',monospace;
-    text-align:center; font-size:1.2rem;
-    color:var(--gold); margin:10px 0;
-  }
-
-  /* ─── RIDDLE ─── */
-  .riddle-box {
-    background: linear-gradient(135deg, rgba(61,26,110,0.4), rgba(26,10,46,0.6));
-    border:1px solid rgba(240,192,96,0.3);
-    border-radius:20px; padding:30px; text-align:center;
-    margin:20px 0;
-  }
-  .riddle-text {
-    font-size:1.1rem; line-height:1.8; font-style:italic;
-    color:#e0d0f5; margin-bottom:20px;
-  }
-  .riddle-input {
-    background:rgba(255,255,255,0.08);
-    border:2px solid rgba(240,192,96,0.4);
-    border-radius:12px; padding:12px 20px;
-    color:var(--cream); font-size:1rem;
-    font-family:'Lora',serif;
-    width:100%; max-width:300px;
-    text-align:center; outline:none;
-    transition:border-color 0.3s;
-  }
-  .riddle-input:focus { border-color:var(--gold); }
-
-  /* ─── FINAL QUEST ─── */
-  #finalQuest { background: radial-gradient(ellipse at 50% 50%, #2d0b5e, #0d0520); }
-  .final-code-input {
-    display:flex; gap:10px; flex-wrap:wrap;
-    justify-content:center; margin:20px 0;
-  }
-  .code-word-input {
-    background:rgba(255,255,255,0.08);
-    border:2px solid rgba(240,192,96,0.4);
-    border-radius:12px; padding:10px 16px;
-    color:var(--cream); font-size:0.9rem;
-    font-family:'Space Mono',monospace;
-    width:140px; text-align:center; outline:none;
-    transition:border-color 0.3s;
-  }
-  .code-word-input:focus { border-color:var(--gold); }
-  .hint-box {
-    background:rgba(240,192,96,0.08);
-    border:1px solid rgba(240,192,96,0.3);
-    border-radius:12px; padding:16px;
-    margin:16px 0; font-size:0.85rem;
-    color:#d0c090; line-height:1.6;
-  }
-
-  /* ─── REVEAL SCREEN ─── */
-  #revealScreen {
-    background:#0d0520;
-    text-align:center;
-  }
-  .countdown-ring {
-    width:140px; height:140px; border-radius:50%;
-    border:4px solid var(--rose);
-    display:flex; align-items:center; justify-content:center;
-    margin:20px auto;
-    box-shadow:0 0 40px rgba(232,100,154,0.5);
-    font-family:'Cinzel Decorative',serif;
-    font-size:3rem; color:var(--gold);
-    animation:ringPulse 1s ease-in-out infinite;
-  }
-  @keyframes ringPulse {
-    0%,100%{box-shadow:0 0 40px rgba(232,100,154,0.5)}
-    50%{box-shadow:0 0 80px rgba(232,100,154,0.9),0 0 120px rgba(232,100,154,0.4)}
-  }
-
-  .spin-container {
-    width:260px; height:100px; overflow:hidden;
-    margin:20px auto;
-    border:3px solid var(--gold);
-    border-radius:20px;
-    background:rgba(255,255,255,0.05);
-    position:relative;
-    box-shadow:0 0 40px rgba(240,192,96,0.3);
-  }
-  .spin-track {
-    position:absolute; width:100%;
-    transition:transform 0.1s;
-    will-change:transform;
-  }
-  .spin-item {
-    height:100px; display:flex;
-    align-items:center; justify-content:center;
-    font-family:'Cinzel Decorative',serif;
-    font-size:2.2rem; font-weight:900;
-    letter-spacing:2px;
-  }
-  .spin-item.boy { color:#64b3f4; }
-  .spin-item.girl { color:#f9b8d4; }
-
-  /* ─── BIG REVEAL ─── */
-  .big-reveal {
-    display:none; animation:revealBlast 0.8s cubic-bezier(0.34,1.56,0.64,1);
-  }
-  .big-reveal.show { display:block; }
-  @keyframes revealBlast {
-    from{transform:scale(0) rotate(-10deg); opacity:0}
-    to{transform:scale(1) rotate(0); opacity:1}
-  }
-  .reveal-emoji { font-size:6rem; margin-bottom:16px; }
-  .reveal-gender {
-    font-family:'Cinzel Decorative',serif;
-    font-size:clamp(3rem,12vw,6rem);
-    background:linear-gradient(135deg,#f9b8d4,#e8649a,#c9185b);
-    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-    text-shadow:none;
-    line-height:1;
-  }
-  .reveal-sub {
-    font-size:1.3rem; color:#e0d0f0; margin-top:10px;
-    font-style:italic;
-  }
-  .confetti-piece {
-    position:fixed; top:-20px; pointer-events:none;
-    border-radius:3px; z-index:999;
-    animation:confettiFall linear forwards;
-  }
-  @keyframes confettiFall {
-    to { transform:translateY(110vh) rotate(720deg); opacity:0; }
-  }
-
-  /* ─── FEEDBACK ─── */
-  .feedback {
-    padding:12px 20px; border-radius:12px; margin:12px 0;
-    font-size:0.9rem; text-align:center; display:none;
-  }
-  .feedback.success { background:rgba(78,205,196,0.15); border:1px solid var(--teal); color:var(--teal); display:block; }
-  .feedback.error { background:rgba(255,80,80,0.15); border:1px solid #f55; color:#f99; display:block; }
-  .feedback.info { background:rgba(240,192,96,0.1); border:1px solid var(--gold); color:var(--gold); display:block; }
-
-  /* ─── PROGRESS ─── */
-  .progress-bar {
-    height:6px; background:rgba(255,255,255,0.1);
-    border-radius:3px; margin:16px 0; overflow:hidden;
-  }
-  .progress-fill {
-    height:100%; background:linear-gradient(90deg,var(--rose),var(--gold));
-    border-radius:3px; transition:width 0.5s ease;
-  }
-
-  /* ─── MISC ─── */
-  .section-divider {
-    border:none; border-top:1px solid rgba(255,255,255,0.1);
-    margin:20px 0;
-  }
-  .back-btn {
-    position:fixed; top:16px; left:16px; z-index:100;
-    background:rgba(255,255,255,0.08);
-    border:1px solid rgba(255,255,255,0.2);
-    color:var(--cream); padding:8px 16px;
-    border-radius:50px; cursor:pointer;
-    font-size:0.8rem; transition:all 0.3s;
-  }
-  .back-btn:hover { background:rgba(255,255,255,0.15); }
-
-  .loading {
-    text-align:center; padding:40px;
-    color:#8070a0; font-size:0.9rem;
-  }
-  .loading::after {
-    content:''; display:block; width:30px; height:30px;
-    border:3px solid rgba(255,255,255,0.1);
-    border-top-color:var(--gold);
-    border-radius:50%; margin:16px auto 0;
-    animation:spin 0.8s linear infinite;
-  }
-  @keyframes spin { to{transform:rotate(360deg)} }
-
-  .toast {
-    position:fixed; bottom:30px; left:50%; transform:translateX(-50%);
-    background:rgba(30,15,60,0.95);
-    border:1px solid var(--gold);
-    color:var(--gold); padding:12px 28px;
-    border-radius:50px; z-index:9999;
-    font-size:0.9rem; opacity:0;
-    transition:opacity 0.4s;
-    pointer-events:none;
-    backdrop-filter:blur(10px);
-  }
-  .toast.show { opacity:1; }
-
-  .quest-complete-banner {
-    text-align:center; padding:20px;
-    background:linear-gradient(135deg,rgba(78,205,196,0.1),rgba(61,26,110,0.2));
-    border:1px solid var(--teal);
-    border-radius:16px; margin:16px 0;
-    display:none;
-  }
-  .quest-complete-banner.show { display:block; animation:chipPop 0.5s ease; }
-  .quest-complete-banner .word-reveal {
-    font-family:'Space Mono',monospace;
-    font-size:1.5rem; color:var(--gold);
-    margin-top:8px; letter-spacing:4px;
-  }
-
-  @media(max-width:500px){
-    .toolkit-grid { grid-template-columns:repeat(3,1fr); }
-    .attendee-cards { gap:8px; }
-    .attendee-card { padding:10px 14px; }
-  }
-
-  /* ─── SONG QUEST STYLES ─── */
-  .song-step {
-    background:rgba(255,255,255,0.06);
-    border:1px solid rgba(240,192,96,0.25);
-    border-radius:50px; padding:7px 18px;
-    font-size:0.78rem; font-family:'Space Mono',monospace;
-    color:#9080c0; cursor:pointer; transition:all 0.3s;
-  }
-  .song-step:hover { border-color:var(--gold); color:var(--gold); }
-  .song-step.active { background:rgba(240,192,96,0.15); border-color:var(--gold); color:var(--gold); }
-  .song-step.done { background:rgba(78,205,196,0.12); border-color:var(--teal); color:var(--teal); }
-
-  .song-panel {
-    background:rgba(255,255,255,0.03);
-    border:1px solid rgba(255,255,255,0.08);
-    border-radius:20px; padding:20px;
-    margin-bottom:16px;
-  }
-  .song-label {
-    font-family:'Space Mono',monospace;
-    font-size:0.72rem; color:var(--teal);
-    letter-spacing:2px; margin-bottom:6px;
-  }
-  .song-title-text {
-    font-family:'Cinzel Decorative',serif;
-    font-size:clamp(1rem,3vw,1.4rem);
-    color:var(--gold); margin-bottom:8px;
-  }
-  .sing-instruction {
-    font-size:0.85rem; color:#c0b0d8;
-    font-style:italic; margin-bottom:14px;
-  }
-  .yt-wrap {
-    position:relative; padding-bottom:56.25%;
-    height:0; overflow:hidden;
-    border-radius:14px; margin-bottom:14px;
-    border:2px solid rgba(240,192,96,0.2);
-  }
-  .yt-wrap iframe {
-    position:absolute; top:0; left:0;
-    width:100%; height:100%; border-radius:12px;
-  }
-  .song-question-box {
-    background:rgba(61,26,110,0.3);
-    border:1px solid rgba(232,100,154,0.3);
-    border-radius:14px; padding:18px; margin-top:10px;
-    animation:chipPop 0.4s ease;
-  }
-  .sq-label {
-    font-family:'Space Mono',monospace;
-    font-size:0.72rem; color:var(--rose);
-    letter-spacing:2px; margin-bottom:6px;
-  }
-  .sq-text {
-    font-size:1rem; color:var(--cream);
-    margin-bottom:14px; line-height:1.5;
-  }
-  .sq-options { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; }
-  .riddle-input-wrap { width:100%; text-align:center; }
-  /* ─── COUNTDOWN TIMER ─── */
-  .countdown-unit {
-    background: rgba(255,255,255,0.07);
-    border: 1px solid rgba(240,192,96,0.35);
-    border-radius: 14px;
-    padding: 12px 18px;
-    min-width: 72px;
-    text-align: center;
-  }
-  .countdown-num {
+  button {
+    background: linear-gradient(135deg, var(--purple), #5a289a);
+    color: var(--cream);
+    border: 1px solid var(--gold);
+    padding: 12px 20px;
     font-family: 'Space Mono', monospace;
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--gold);
-    line-height: 1;
-  }
-  .countdown-label {
-    font-size: 0.65rem;
-    color: #9080b0;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-top: 4px;
-  }
-  .countdown-sep {
-    font-family: 'Space Mono', monospace;
-    font-size: 2rem;
-    color: var(--gold);
-    align-self: center;
-    opacity: 0.5;
-    padding-bottom: 18px;
-  }
-
-  /* ─── GAME MASTER PANEL ─── */
-  .gm-preview-btn {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(120,100,200,0.25);
-    color: #c0a8f8;
-    border-radius: 10px;
-    padding: 11px 16px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    border-radius: 8px;
     cursor: pointer;
-    font-size: 0.85rem;
-    text-align: left;
-    transition: all .2s;
-    font-family: inherit;
+    transition: all 0.2s ease;
+    display: inline-flex; align-items:center; justify-content:center; gap:8px;
+    width: 100%; margin-top: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
   }
-  .gm-preview-btn:hover {
-    background: rgba(120,100,200,0.15);
-    border-color: rgba(120,100,200,0.5);
-    color: #e0d0ff;
+  button:hover:not(:disabled) {
+    background: linear-gradient(135deg, #5a289a, var(--purple));
+    transform: translateY(-1s);
+    box-shadow: 0 6px 16px rgba(240,192,96,0.2);
   }
-  #gmModal {
-    align-items: center;
-    justify-content: center;
+  button:disabled { opacity: 0.5; cursor: not-allowed; border-color: rgba(240,192,96,0.2); }
+  
+  .btn-secondary {
+    background: transparent; border: 1px solid rgba(255,255,255,0.2); color: #bcaed4; margin-top:15px; font-size:0.8rem;
   }
+  .btn-secondary:hover { background: rgba(255,255,255,0.05); color:#fff; }
+
+  /* ─── INPUTS & FORM CONTROLS ─── */
+  input[type="text"], input[type="password"], select {
+    width: 100%; background: rgba(0,0,0,0.4); border: 1px solid rgba(240,192,96,0.4);
+    padding: 12px; border-radius: 8px; color: #fff; font-family: 'Space Mono', monospace;
+    font-size: 0.95rem; margin-bottom: 12px; transition: border-color 0.2s;
+  }
+  input[type="text"]:focus, input[type="password"]:focus {
+    border-color: var(--gold); outline: none; box-shadow: 0 0 8px rgba(240,192,96,0.3);
+  }
+  label { display:block; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; color:var(--pink); margin-bottom:6px; font-weight:600; }
+
+  /* ─── QUEST SPECIFIC STYLES ─── */
+  .song-block {
+    background: rgba(255,255,255,0.04); border-left: 3px solid var(--teal); padding: 12px; border-radius: 0 8px 8px 0; margin-bottom: 16px;
+  }
+  .song-link { color: var(--teal); text-decoration: none; font-size: 0.85rem; font-family: 'Space Mono', monospace; display: block; margin-bottom: 8px; }
+  .song-link:hover { text-decoration: underline; }
+  
+  .lyrics-box {
+    font-family: 'Lora', serif; font-style: italic; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 6px; line-height: 1.8; font-size: 0.9rem; color: #f0e6ff; margin-bottom: 8px;
+  }
+  .inline-input {
+    background: rgba(0,0,0,0.5) !important; border: none !important; border-bottom: 2px solid var(--gold) !important;
+    width: 110px !important; padding: 2px 4px !important; margin: 0 4px !important; display: inline-block !important;
+    text-align: center; border-radius: 0 !important; font-size: 0.9rem !important; color: #fff !important;
+  }
+
+  .charades-word {
+    font-family: 'Cinzel Decorative', serif; font-size: 2rem; color: var(--gold); text-align: center;
+    margin: 20px 0; letter-spacing: 2px; text-shadow: 0 0 10px rgba(240,192,96,0.5);
+    background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; border: 1px dashed var(--gold);
+  }
+
+  /* ─── TOAST NOTIFICATIONS ─── */
+  #toast {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px);
+    background: rgba(20, 10, 35, 0.95); border: 1px solid var(--gold); color: #fff;
+    padding: 12px 24px; border-radius: 30px; font-family: 'Space Mono', monospace; font-size: 0.85rem;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.6); z-index: 1000; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex; align-items: center; gap: 8px; pointer-events: none; white-space: nowrap;
+  }
+  #toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* ─── LOCK SCREEN & FOOTER ─── */
+  .lock-status { font-family:'Space Mono', monospace; font-size:0.75rem; text-align:center; color:#a090b8; margin-top:20px; }
+  .gm-panel { border-top: 1px dashed rgba(240,192,96,0.2); margin-top: 30px; padding-top: 15px; }
+
 </style>
 </head>
 <body>
 
-<!-- STARFIELD -->
-<div id="starfield"></div>
+<canvas id="starfield"></canvas>
 
-<!-- TOAST -->
-<div class="toast" id="toast"></div>
+<div id="app">
+  <header>
+    <h1>Baby Reveal Escape Room</h1>
+    <div class="subtitle">The Celestial Odyssey 🍼</div>
+  </header>
 
-<!-- ════════════════════════════════════════
-     SCREEN 1: LANDING
-════════════════════════════════════════ -->
-<div class="screen active" id="landing">
-  <div class="moon-glow"></div>
-
-  <h1 class="title">Baby Reveal<br>Escape Room</h1>
-  <p class="subtitle">A magical mystery awaits...</p>
-  <p class="parents-tag">✨ Papi Ramon & Momma Alyn ✨</p>
-
-  <div class="attendee-cards">
-    <div class="attendee-card">
-      <div class="role">Game Master</div>
-      <div class="name">Ninong Pogi 👑</div>
-      <div class="badge">⚔️ Quest Guardian</div>
-    </div>
-    <div class="attendee-card">
-      <div class="role">Team Player</div>
-      <div class="name">Ninang Wishelle 🌸</div>
-      <div class="badge">🗝️ Clue Hunter</div>
-    </div>
-    <div class="attendee-card">
-      <div class="role">Team Player</div>
-      <div class="name">Ninang She 🌙</div>
-      <div class="badge">🗝️ Clue Hunter</div>
-    </div>
+  <div id="screen-intro" class="card active">
+    <h2>✨ Maligayang Pagdating!</h2>
+    <p>Handa na ba kayong simulan ang celestial adventure na ito? Kailangang malampasan nina Mami at Papi ang apat na mahiwagang Quests upang mabuksan ang huling sikreto.</p>
+    <p class="italic" style="color: var(--pink)">"Ang mga bituin ay naghihintay sa inyong tamang sagot..."</p>
+    <button onclick="showScreen('quest1')">Simulan ang Unang Quest 🎵</button>
+    <button class="btn-secondary" onclick="showScreen('gmLogin')">⚙️ Game Master Access</button>
   </div>
 
-  <!-- COUNTDOWN (shown before unlock time) -->
-  <div id="countdownBlock" style="display:none;text-align:center;margin:10px 0 20px">
-    <p style="color:#c8b8e8;font-size:0.85rem;font-style:italic;margin-bottom:6px">
-      🔒 The quest unlocks on <strong style="color:var(--gold)">May 26, 2026 · 8:30 PM Dubai Time</strong>
-    </p>
-    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:14px 0">
-      <div class="countdown-unit"><div class="countdown-num" id="cd-days">00</div><div class="countdown-label">Days</div></div>
-      <div class="countdown-sep">:</div>
-      <div class="countdown-unit"><div class="countdown-num" id="cd-hours">00</div><div class="countdown-label">Hours</div></div>
-      <div class="countdown-sep">:</div>
-      <div class="countdown-unit"><div class="countdown-num" id="cd-mins">00</div><div class="countdown-label">Minutes</div></div>
-      <div class="countdown-sep">:</div>
-      <div class="countdown-unit"><div class="countdown-num" id="cd-secs">00</div><div class="countdown-label">Seconds</div></div>
+  <div id="screen-quest1" class="card">
+    <h2>🎵 Quest 1: The Singing Mami and Papi</h2>
+    <p>Makinig sa bawat kanta gamit ang mga link sa ibaba at sagutan ang mga hamon. Mayroon lamang kayong <span class="highlight">3 pagkakataon (tries)</span> para ma-encode ang inyong mga sagot!</p>
+    
+    <div id="q1-attempts-left" class="highlight" style="margin-bottom: 15px; text-align: center; font-family: 'Space Mono', monospace;">
+      Natitirang Pagkakataon: 3 / 3
     </div>
-    <button class="btn btn-primary" style="opacity:0.35;cursor:not-allowed;pointer-events:none;">
-      🔒 QUEST LOCKED
-    </button>
+
+    <div class="song-block">
+      <label>Kanta 1: Old McDonald Had A Farm</label>
+      <a href="https://www.youtube.com/watch?v=_6HzoUcx3eo" target="_blank" class="song-link">▶️ Panoorin/Pakinggan sa YouTube</a>
+      <p style="font-size:0.85rem; margin-bottom:8px;" class="italic">Hamon: Isulat ang mga hayop sa tamang pagkakasunod-sunod na binanggit sa kanta (Ihiwalay gamit ang kuwit, Halimbawa: Animal1, Animal2...)</p>
+      <input type="text" id="q1-s1" placeholder="Hal: Pig, Duck, ...">
+    </div>
+
+    <div class="song-block">
+      <label>Kanta 2: Jack and Jill</label>
+      <a href="https://www.youtube.com/watch?v=EFj0K38sPmA" target="_blank" class="song-link">▶️ Panoorin/Pakinggan sa YouTube</a>
+      
+      <p style="font-size:0.85rem; margin-bottom:4px;" class="italic">Q1: Sino ang unang nadapa?</p>
+      <input type="text" id="q1-s2-q1" placeholder="Sagot">
+      
+      <p style="font-size:0.85rem; margin-bottom:4px;" class="italic">Q2: Ano ang gamit ng bitbit nilang isang baleldeng tubig?</p>
+      <input type="text" id="q1-s2-q2" placeholder="Sagot">
+      
+      <p style="font-size:0.85rem; margin-bottom:4px;" class="italic">Q3: Ano ang kulay ng damit ni Jill?</p>
+      <input type="text" id="q1-s2-q3" placeholder="Sagot">
+    </div>
+
+    <div class="song-block">
+      <label>Kanta 3: Sa Ugoy ng Duyan</label>
+      <a href="https://www.youtube.com/watch?v=4kOPIecQWdY" target="_blank" class="song-link">▶️ Panoorin/Pakinggan sa YouTube</a>
+      <p style="font-size:0.85rem; margin-bottom:8px;" class="italic">Hamon: Punan ang mga patlang upang mabuo ang liriko.</p>
+      
+      <div class="lyrics-box">
+        [Chorus]<br>
+        Sana'y 'di <input type="text" id="q1-s3-1" class="inline-input"> ang dati kong araw<br>
+        Nang munti pang bata sa piling ni nanay<br>
+        Nais kong maulit ang awit ni <input type="text" id="q1-s3-2" class="inline-input"> mahal<br>
+        Awit ng pag-ibig habang ako'y nasa <input type="text" id="q1-s3-3" class="inline-input"><br>
+        [Verse 1]<br>
+        Sa aking pagtulog na labis ang <input type="text" id="q1-s3-4" class="inline-input"><br>
+        Ang bantay ko'y <input type="text" id="q1-s3-5" class="inline-input">, ang <input type="text" id="q1-s3-6" class="inline-input"> ko'y bituin<br>
+        Sa piling ni nanay, langit ay buhay<br>
+        Puso kong may <input type="text" id="q1-s3-7" class="inline-input"> sabik sa ugoy ng duyan
+      </div>
+    </div>
+
+    <button id="q1-submit-btn" onclick="checkQuest1()">I-submit ang mga Sagot 🔒</button>
+    <div id="q1-error" class="error-text" style="text-align:center; margin-top:10px;"></div>
+    
+    <button class="btn-secondary" onclick="showScreen('intro')">◀️ Bumalik sa Simula</button>
   </div>
 
-  <!-- BEGIN BUTTON (shown after unlock time) -->
-  <div id="beginBlock" style="display:none;text-align:center">
-    <p style="color:var(--teal);font-size:0.82rem;margin-bottom:14px;font-family:'Space Mono',monospace;">
-      🎉 The quest is now OPEN! Good luck!
-    </p>
-    <button class="btn btn-primary" onclick="showScreen('hub')">
-      ✦ BEGIN THE QUEST ✦
-    </button>
+  <div id="screen-quest2" class="card">
+    <h2>🎯 Quest 2: Charades</h2>
+    <p><strong>Mechanics:</strong> Ang mga salita ay magmumula sa Game Master. Si <span class="highlight">Papi Ramon</span> ang gaganap ng aksyon nang walang tunog, at ang natitirang mga manlalaro ang manghuhula ng salita.</p>
+    <p class="italic" style="color: var(--teal)">Pindutin ang buton sa ibaba kapag nahulaan na lahat ng 5 salita upang magpatuloy!</p>
+    
+    <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+      <span class="highlight" style="font-size: 0.9rem;">Mga Salitang Huhulaan (Para sa Game Master/Aktor):</span>
+      <ol style="margin-left: 20px; margin-top: 8px; font-size: 0.9rem; color: #c8b8e8; line-height: 1.5;">
+        <li>Banana</li>
+        <li>Diaper</li>
+        <li>Dinosaur</li>
+        <li>Cocomelon</li>
+        <li>Mermaid</li>
+      </ol>
+    </div>
+
+    <button onclick="completeQuest2()">Tapos na Namin Mahulaan Lahat! 🎉</button>
+    <button class="btn-secondary" onclick="showScreen('quest1')">◀️ Bumalik sa Quest 1</button>
   </div>
 
-  <p style="margin-top:20px;color:#7060a0;font-size:0.8rem;font-style:italic;">
-    Complete all 4 quests to reveal the baby's gender...
-  </p>
-
-  <!-- Hidden GM access button -->
-  <div style="position:absolute;bottom:18px;right:18px;">
-    <button onclick="openGMLogin()" title="Game Master Access"
-      style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);
-             color:#4a3a6a;border-radius:50%;width:34px;height:34px;font-size:0.95rem;
-             cursor:pointer;transition:all .3s;line-height:1"
-      onmouseover="this.style.color='#c8b8e8';this.style.borderColor='rgba(200,184,232,0.3)'"
-      onmouseout="this.style.color='#4a3a6a';this.style.borderColor='rgba(255,255,255,0.08)'">
-      &#9881;
-    </button>
+  <div id="screen-quest3" class="card">
+    <h2>🎯 Quest 3: Bet on Your Baby</h2>
+    <p>Oras na para sa hulaan! Ang bawat isa ay maglalagay ng kanilang pustahan kung ano sa tingin ninyo ang kasarian ng sanggol.</p>
+    <p>Maaaring i-facilitate ito ng Game Master sa totoong buhay. Kapag tapos na ang laro, i-click ang buton upang magpatuloy sa susunod na yugto.</p>
+    <button onclick="showScreen('quest4')">Ipadala sa Quest 4 ➡️</button>
+    <button class="btn-secondary" onclick="showScreen('quest2')">◀️ Bumalik sa Quest 2</button>
   </div>
+
+  <div id="screen-quest4" class="card">
+    <h2>👶 Quest 4: Who's Most Likely?</h2>
+    <p>Sino ang mas malamang na gumawa ng mga gawaing magulang? Itinaas ang pointing board o picture nina Mami o Papi!</p>
+    <p class="italic">Kapag natapos na ang kulitan at seryeng ito, handa na kayo para sa huling pagbubunyag.</p>
+    <button onclick="showScreen('finalQuest')">Pumunta sa Huling Pagbubunyag! 🌟</button>
+    <button class="btn-secondary" onclick="showScreen('quest3')">◀️ Bumalik sa Quest 3</button>
+  </div>
+
+  <div id="screen-finalQuest" class="card">
+    <h2>🌟 Ang Huling Kandado</h2>
+    <p>Nalampasan ninyo ang lahat ng mga pagsubok! Ngayon, upang malaman ang tunay na kasarian ng parating na sanggol, hingin ang **Celestial Key (Password)** mula sa inyong Game Master.</p>
+    
+    <label for="finalPassword">Ipasok ang Celestial Key:</label>
+    <input type="password" id="finalPassword" placeholder="Ipasok ang password dito...">
+    
+    <button onclick="checkFinalKey()">I-unlock ang Kasarian! 🔓</button>
+    <div id="final-error" class="error-text" style="text-align:center; margin-top:10px;"></div>
+  </div>
+
+  <div id="screen-celestialReveal" class="card" style="text-align:center;">
+    <h2 style="justify-content:center;">✨ ANG BUNYAG ✨</h2>
+    <p>Ang mga bituin ay nagkakaisa, at ang tadhana ay nakasulat na...</p>
+    
+    <div id="revealResultBox" style="font-size: 2.5rem; font-weight: bold; margin: 30px 0; text-shadow: 0 0 20px rgba(255,255,255,0.6);">
+      </div>
+
+    <p id="revealCustomMessage" class="italic" style="font-size:1.1rem; color:var(--pink);"></p>
+    
+    <div style="font-size: 4rem; animation: bounce 2s infinite; margin-top:20px;">👶✨🍼</div>
+  </div>
+
+  <div id="screen-gmLogin" class="card">
+    <h2>⚙️ Game Master Portal</h2>
+    <p>Ipasok ang GM Secret Key upang pamahalaan ang laro, i-override ang mga lock, o itakda ang resulta.</p>
+    <input type="password" id="gmPassword" placeholder="GM Password...">
+    <button onclick="checkGMLogin()">Mag-login bilang GM</button>
+    <button class="btn-secondary" onclick="showScreen('intro')">◀️ Kanselahin</button>
+  </div>
+
+  <div id="screen-gmDashboard" class="card">
+    <h2>🛠️ GM Dashboard</h2>
+    <p>Maligayang pagdating, Control Center. Kontrolin ang daloy ng kapalaran mula rito.</p>
+    
+    <div style="background:rgba(0,0,0,0.3); padding:12px; border-radius:8px; margin-bottom:15px;">
+      <label>Itakda ang Kasarian ng Sanggol:</label>
+      <select id="gmBabyGender">
+        <option value="BOY">👶 IT'S A BOY! (Asul / Blue Theme)</option>
+        <option value="GIRL">👧 IT'S A GIRL! (Rosas / Pink Theme)</option>
+      </select>
+      
+      <label style="margin-top:10px;">Espesyal na Mensahe sa Pagbubunyag:</label>
+      <input type="text" id="gmCustomMessage" value="Maligayang pagdating sa ating munting anghel!">
+      
+      <label style="margin-top:10px;">Itakda ang Celestial Key (Para sa mga Manlalaro):</label>
+      <input type="text" id="gmPlayerKey" value="BABY2026">
+    </div>
+
+    <div style="background:rgba(0,0,0,0.3); padding:12px; border-radius:8px; margin-bottom:15px;">
+      <span class="highlight">Katayuan ng mga Quests:</span>
+      <div id="gmProgressList" style="margin-top:8px; display:flex; flex-direction:column; gap:6px;"></div>
+    </div>
+
+    <button onclick="saveGMConfig()" style="background:linear-gradient(135deg, #106040, #208050);">💾 I-save ang Setup at Password</button>
+    
+    <div class="gm-panel">
+      <span class="highlight">Quick Jumps (I-preview):</span>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-top:8px;">
+        <button onclick="gmPreview(1)" class="btn-secondary" style="margin:0;">Quest 1</button>
+        <button onclick="gmPreview(2)" class="btn-secondary" style="margin:0;">Quest 2</button>
+        <button onclick="gmPreview(3)" class="btn-secondary" style="margin:0;">Quest 3</button>
+        <button onclick="gmPreview(4)" class="btn-secondary" style="margin:0;">Quest 4</button>
+      </div>
+      <button onclick="gmPreview('final')" class="btn-secondary">Huling Kandado</button>
+    </div>
+
+    <button class="btn-secondary" onclick="logoutGM()">🔒 Mag-logout sa Dashboard</button>
+  </div>
+
+  <div class="lock-status" id="gmUnlockStatus">🔒 Naka-lock ang System (Kailangang dumaan sa mga Quest)</div>
 </div>
 
-<!-- GM LOGIN MODAL -->
-<div id="gmModal" style="display:none;position:fixed;inset:0;z-index:999;
-     background:rgba(10,5,25,0.88);backdrop-filter:blur(8px);
-     display:none;align-items:center;justify-content:center">
-  <div style="background:linear-gradient(135deg,#1a0f35,#0d0820);
-       border:1px solid rgba(240,192,96,0.3);border-radius:20px;
-       padding:32px 28px;max-width:340px;width:90%;text-align:center;position:relative">
-    <div style="font-size:2rem;margin-bottom:8px">🔐</div>
-    <div style="font-family:'Space Mono',monospace;color:var(--gold);font-size:1rem;margin-bottom:4px">
-      GAME MASTER ACCESS
-    </div>
-    <div style="color:#9080b0;font-size:0.78rem;margin-bottom:20px">
-      Enter your secret access code
-    </div>
-    <input id="gmCodeInput" type="password" placeholder="Access code..."
-      style="width:100%;box-sizing:border-box;background:rgba(255,255,255,0.06);
-             border:1px solid rgba(200,184,232,0.25);border-radius:10px;
-             padding:12px 16px;color:#e8d8f8;font-family:'Space Mono',monospace;
-             font-size:0.9rem;outline:none;margin-bottom:12px;text-align:center"
-      onkeydown="if(event.key==='Enter') verifyGMCode()"/>
-    <div id="gmCodeError" style="color:#e05070;font-size:0.78rem;min-height:18px;margin-bottom:10px"></div>
-    <div style="display:flex;gap:10px;justify-content:center">
-      <button onclick="verifyGMCode()"
-        style="background:linear-gradient(135deg,var(--gold),#c87820);color:#1a0f30;
-               border:none;border-radius:10px;padding:10px 24px;font-weight:700;
-               font-family:'Space Mono',monospace;cursor:pointer;font-size:0.85rem">
-        ENTER ✦
-      </button>
-      <button onclick="closeGMLogin()"
-        style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);
-               color:#9080b0;border-radius:10px;padding:10px 20px;cursor:pointer;font-size:0.85rem">
-        Cancel
-      </button>
-    </div>
-  </div>
-</div>
+<div id="toast"></div>
 
-<!-- GM PANEL SCREEN -->
-<div class="screen" id="gmPanel">
-  <button class="back-btn" onclick="showScreen('landing')">← Back</button>
-  <div class="quest-screen" style="max-width:560px">
-
-    <div class="quest-header">
-      <div class="quest-number" style="color:var(--gold)">⚙️ GAME MASTER</div>
-      <div class="quest-title" style="font-size:1.2rem">Settings & Preview</div>
-      <div class="quest-desc">Only you can see this panel, Ninong Pogi 👑</div>
-    </div>
-
-    <!-- UNLOCK OVERRIDE -->
-    <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(240,192,96,0.2);
-         border-radius:14px;padding:18px;margin-bottom:16px">
-      <div style="color:var(--gold);font-family:'Space Mono',monospace;font-size:0.85rem;margin-bottom:10px">
-        🔒 UNLOCK CONTROL
-      </div>
-      <div style="color:#c8b8e8;font-size:0.82rem;margin-bottom:14px">
-        Scheduled: <strong style="color:var(--gold)">May 26, 2026 · 8:30 PM Dubai</strong>
-      </div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap">
-        <button onclick="gmForceUnlock()"
-          style="background:rgba(80,200,140,0.15);border:1px solid rgba(80,200,140,0.4);
-                 color:#60e0a0;border-radius:10px;padding:9px 18px;cursor:pointer;font-size:0.82rem;flex:1">
-          ✅ Force Unlock Now
-        </button>
-        <button onclick="gmForceLock()"
-          style="background:rgba(220,80,80,0.1);border:1px solid rgba(220,80,80,0.3);
-                 color:#e08080;border-radius:10px;padding:9px 18px;cursor:pointer;font-size:0.82rem;flex:1">
-          🔒 Re-Lock Game
-        </button>
-      </div>
-      <div id="gmUnlockStatus" style="font-size:0.75rem;color:#9080b0;margin-top:10px;font-family:'Space Mono',monospace;text-align:center"></div>
-    </div>
-
-    <!-- QUEST PROGRESS OVERVIEW -->
-    <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(120,100,200,0.2);
-         border-radius:14px;padding:18px;margin-bottom:16px">
-      <div style="color:#c0a8f8;font-family:'Space Mono',monospace;font-size:0.85rem;margin-bottom:12px">
-        📊 QUEST PROGRESS
-      </div>
-      <div id="gmProgressList" style="display:flex;flex-direction:column;gap:8px"></div>
-      <button onclick="gmResetAll()"
-        style="margin-top:14px;width:100%;background:rgba(220,80,80,0.1);
-               border:1px solid rgba(220,80,80,0.3);color:#e08080;
-               border-radius:10px;padding:10px;cursor:pointer;font-size:0.82rem">
-        🔄 Reset ALL Quest Progress
-      </button>
-    </div>
-
-    <!-- SECRET CODES CHEAT SHEET -->
-    <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(64,200,180,0.2);
-         border-radius:14px;padding:18px;margin-bottom:16px">
-      <div style="color:var(--teal);font-family:'Space Mono',monospace;font-size:0.85rem;margin-bottom:12px">
-        🗝️ SECRET CODES
-      </div>
-      <div style="font-family:'Space Mono',monospace;font-size:0.82rem;line-height:2.2;color:#c8b8e8">
-        <div>Quest 1 → <strong style="color:var(--gold)">SEPTEMBER</strong> <span style="color:#6a5a8a">(Father's birth month)</span></div>
-        <div>Quest 2 → <strong style="color:var(--gold)">FEBRUARY</strong> <span style="color:#6a5a8a">(Mother's birth month)</span></div>
-        <div>Quest 3 → <strong style="color:var(--gold)">SINGKAMAS</strong> <span style="color:#6a5a8a">(First pregnancy craving)</span></div>
-        <div>Quest 4 → <strong style="color:var(--gold)">29</strong> <span style="color:#6a5a8a">(Age when pregnant)</span></div>
-      </div>
-    </div>
-
-    <!-- QUEST PREVIEWS -->
-    <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(120,100,200,0.2);
-         border-radius:14px;padding:18px;margin-bottom:16px">
-      <div style="color:#c0a8f8;font-family:'Space Mono',monospace;font-size:0.85rem;margin-bottom:12px">
-        👁️ QUEST PREVIEWS
-      </div>
-      <div style="display:flex;flex-direction:column;gap:8px">
-        <button onclick="gmPreview(1)" class="gm-preview-btn">🎵 Quest 1 — The Lullaby</button>
-        <button onclick="gmPreview(2)" class="gm-preview-btn">🍼 Quest 2 — Baby Toolkit Trivia</button>
-        <button onclick="gmPreview(3)" class="gm-preview-btn">🎯 Quest 3 — Bet on Your Baby</button>
-        <button onclick="gmPreview(4)" class="gm-preview-btn">👶 Quest 4 — Who's Most Likely?</button>
-        <button onclick="gmPreview('final')" class="gm-preview-btn">🌟 Final Quest — The Reveal</button>
-      </div>
-    </div>
-
-    <!-- ANAGRAM ANSWER KEY -->
-    <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(64,200,180,0.2);
-         border-radius:14px;padding:18px">
-      <div style="color:var(--teal);font-family:'Space Mono',monospace;font-size:0.85rem;margin-bottom:12px">
-        🔀 ANAGRAM ANSWER KEY (Quest 2)
-      </div>
-      <div style="font-size:0.76rem;line-height:2;color:#b0a0d0;font-family:'Space Mono',monospace">
-        <div>YABB SEWIP → <strong style="color:#e8d8a0">Baby Wipes</strong></div>
-        <div>YABB LIAN MERMRIT → <strong style="color:#e8d8a0">Baby Nail Trimmer</strong></div>
-        <div>LAGITID YABB METROMHETER → <strong style="color:#e8d8a0">Digital Baby Thermometer</strong></div>
-        <div>RUPB HOTLC → <strong style="color:#e8d8a0">Burp Cloth</strong></div>
-        <div>TREEHE → <strong style="color:#e8d8a0">Teether</strong></div>
-        <div>NASLA TRAROSIPA → <strong style="color:#e8d8a0">Nasal Aspirator</strong></div>
-        <div>PARDIE GAB → <strong style="color:#e8d8a0">Diaper Bag</strong></div>
-        <div>YABB ODDEH LEWOT → <strong style="color:#e8d8a0">Baby Hooded Towel</strong></div>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<!-- ════════════════════════════════════════
-     SCREEN 2: QUEST HUB
-════════════════════════════════════════ -->
-<div class="screen" id="hub">
-  <button class="back-btn" onclick="showScreen('landing')">← Back</button>
-  <div class="hub-header">
-    <h1 class="title" style="font-size:clamp(1.2rem,4vw,2rem)">The Quest Map</h1>
-    <p class="subtitle">Complete each quest to collect the magic words</p>
-    <div class="progress-bar">
-      <div class="progress-fill" id="hubProgress" style="width:0%"></div>
-    </div>
-    <p style="color:var(--teal);font-size:0.8rem;font-family:'Space Mono',monospace" id="hubProgressText">0 / 4 Quests Complete</p>
-  </div>
-
-  <p style="color:#9080b0;font-size:0.85rem;margin-bottom:10px;">Collected Words:</p>
-  <div class="collected-words" id="collectedWordsHub">
-    <!-- filled dynamically -->
-  </div>
-
-  <div style="display:flex;flex-direction:column;align-items:center;gap:4px;width:100%;max-width:400px">
-    <button class="btn btn-quest" id="q1btn" onclick="showQuest(1)">🎵 Quest 1: The Lullaby</button>
-    <button class="btn btn-quest" id="q2btn" onclick="showQuest(2)">🍼 Quest 2: Baby Toolkit Trivia</button>
-    <button class="btn btn-quest" id="q3btn" onclick="showQuest(3)">🎯 Quest 3: Bet on Your Baby</button>
-    <button class="btn btn-quest" id="q4btn" onclick="showQuest(4)">👶 Quest 4: Who's Most Likely?</button>
-    <hr class="section-divider" style="width:100%"/>
-    <button class="btn btn-quest" id="finalBtn" onclick="showScreen('finalQuest')"
-      style="border-color:var(--rose);color:var(--rose);font-size:0.9rem;">
-      🔓 FINAL QUEST: Baby Code
-    </button>
-  </div>
-</div>
-
-<!-- ════════════════════════════════════════
-     SCREEN 3: QUEST 1 – THE LULLABY
-════════════════════════════════════════ -->
-<div class="screen" id="quest1">
-  <button class="back-btn" onclick="showScreen('hub')">← Hub</button>
-  <div class="quest-screen" style="max-width:740px">
-    <div class="quest-header">
-      <div class="quest-number">QUEST 01</div>
-      <div class="quest-title">🎵 The Singing Mami and Papi</div>
-      <div class="quest-desc">Complete all 3 song challenges. Players only have 3 tries to encode their answers!</div>
-    </div>
-
-    <!-- SONG PROGRESS -->
-    <div style="display:flex;justify-content:center;gap:10px;margin-bottom:20px;flex-wrap:wrap">
-      <div class="song-step" id="sstep1" onclick="switchSong(1)">🎶 Song 1</div>
-      <div class="song-step" id="sstep2" onclick="switchSong(2)">🎶 Song 2</div>
-      <div class="song-step" id="sstep3" onclick="switchSong(3)">🎶 Song 3</div>
-    </div>
-
-    <!-- ── SONG 1: Old McDonald ── -->
-    <div class="song-panel" id="spanel1">
-      <div class="song-label">🐄 Song 1 of 3</div>
-      <h3 class="song-title-text">Old McDonald Had A Farm</h3>
-      <p class="sing-instruction">🎤 Challenge: Enumerate the animals in proper order mentioned in the song.</p>
-      <div class="yt-wrap">
-        <iframe src="https://www.youtube.com/embed/_6HzoUcx3eo?rel=0" title="Old McDonald Had A Farm" frameborder="0" allowfullscreen></iframe>
-      </div>
-      <div class="song-question-box" id="sq1" style="display:none">
-        <p class="sq-label">🐾 Song 1 Challenge:</p>
-        <p class="sq-text">Enter the animals in the correct order mentioned in the song.</p>
-        <div class="sq-options">
-          <div class="riddle-input-wrap">
-            <input class="riddle-input" id="song1Answer" type="text" placeholder="Pig, Duck, Horse..." />
-            <br><br>
-            <button class="btn-sm">Submit Answer 🐄</button>
-          </div>
-        </div>
-        <div class="feedback" id="sq1Feedback"></div>
-        <p style="margin-top:10px;color:var(--teal);font-size:0.8rem">
-          Correct Answer: Pig, Duck, Horse, Sheep, Cow, Turkey
-        </p>
-      </div>
-      <div style="text-align:center;margin-top:16px" id="sq1trigger">
-        <button class="btn-sm" onclick="revealSongQ(1)">We're done singing! Start the challenge 🐄</button>
-      </div>
-    </div>
-
-    <!-- ── SONG 2: Jack and Jill ── -->
-    <div class="song-panel" id="spanel2" style="display:none">
-      <div class="song-label">🪣 Song 2 of 3</div>
-      <h3 class="song-title-text">Jack and Jill</h3>
-      <p class="sing-instruction">🎤 Answer all the questions correctly!</p>
-      <div class="yt-wrap">
-        <iframe src="https://www.youtube.com/embed/EFj0K38sPmA?rel=0" title="Jack and Jill" frameborder="0" allowfullscreen></iframe>
-      </div>
-      <div class="song-question-box" id="sq2" style="display:none">
-        <p class="sq-label">🪣 Song 2 Q & A:</p>
-        <p class="sq-text">
-          1. Who fell first? <strong>(Jill)</strong><br><br>
-          2. What is the use of the pail of water they fetch? <strong>(bath)</strong><br><br>
-          3. What is the color of Jill's dress? <strong>(Yellow)</strong>
-        </p>
-        <div class="feedback info" style="display:block">
-          Players only have 3 tries to answer.
-        </div>
-      </div>
-      <div style="text-align:center;margin-top:16px" id="sq2trigger">
-        <button class="btn-sm" onclick="revealSongQ(2)">We're done singing! Start Q & A 🪣</button>
-      </div>
-    </div>
-
-    <!-- ── SONG 3: Sa Ugoy ng Duyan ── --> Sa Ugoy ng Duyan ── -->
-    <div class="song-panel" id="spanel3" style="display:none">
-      <div class="song-label">🌙 Song 3 of 3</div>
-      <h3 class="song-title-text">Sa Ugoy ng Duyan</h3>
-      <p class="sing-instruction">🎤 Everyone sing along together!</p>
-      <div class="yt-wrap">
-        <iframe src="https://www.youtube.com/embed/4kOPIecQWdY?rel=0" title="Sa Ugoy ng Duyan" frameborder="0" allowfullscreen></iframe>
-      </div>
-      <div class="song-question-box" id="sq3" style="display:none">
-        <p class="sq-label">🌙 Song 3 Challenge:</p>
-        <p class="sq-text">
-          Complete the missing lyrics:<br><br>
-
-          [Chorus]<br>
-          Sana'y 'di _________ <strong>(magmaliw)</strong> ang dati kong araw<br>
-          Nang munti pang bata sa piling ni nanay<br>
-          Nais kong maulit ang awit ni _______ <strong>(inang)</strong> mahal<br>
-          Awit ng pag-ibig habang ako'y nasa _____ <strong>(duyan)</strong><br><br>
-
-          [Verse 1]<br>
-          Sa aking pagtulog na labis ang _______ <strong>(himbing)</strong><br>
-          Ang bantay ko'y _______ <strong>(tala)</strong>, ang _______ <strong>(tanod)</strong> ko'y bituin<br>
-          Sa piling ni nanay, langit ay buhay<br>
-          Puso kong may _______ <strong>(dusa)</strong> sabik sa ugoy ng duyan
-        </p>
-        <div class="feedback info" style="display:block">
-          Players only have 3 tries to answer.
-        </div>
-      </div>
-      <div style="text-align:center;margin-top:16px" id="sq3trigger">
-        <button class="btn-sm" onclick="revealSongQ(3)">We're done singing! Answer the question 🌙</button>
-      </div>
-    </div>
-
-    <!-- QUEST COMPLETE BANNER -->
-    <div style="text-align:center;margin-top:8px">
-      <button class="btn-sm" onclick="resetLullaby()" style="background:rgba(255,255,255,0.05);">🔄 Reset Quest 1</button>
-    </div>
-
-    <div class="quest-complete-banner" id="q1Banner">
-      <div>🎉 All 3 Songs Complete! Your quest code is...</div>
-      <div class="word-reveal" id="q1Word"></div>
-    </div>
-  </div>
-</div>
-
-<!-- ════════════════════════════════════════
-     SCREEN 4: QUEST 2 – BABY TOOLKIT TRIVIA
-════════════════════════════════════════ -->
-<div class="screen" id="quest2">
-  <button class="back-btn" onclick="showScreen('hub')">← Hub</button>
-  <div class="quest-screen">
-    <div class="quest-header">
-      <div class="quest-number">QUEST 02</div>
-      <div class="quest-title">🎭 Charades</div>
-      <div class="quest-desc">Words must come from the game master. Papi Ramon should execute the actions while the rest guess the word.</div>
-    </div>
-
-    <div class="score-display">5 Charades Words</div>
-
-    <div id="triviaQuestions">
-      <!-- TQ1 -->
-      <div class="quiz-q" id="tq1">
-        <div class="q-text">1. Used to clean a newborn during diaper changes — comes in soft, moist sheets.<br><span style="font-size:0.8rem;color:var(--teal);font-family:'Space Mono',monospace">🔀 Anagram: <strong>YABB SEWIP</strong></span></div>
-        <div class="quiz-options">
-          <div class="quiz-opt" onclick="answerTrivia(1,this,'Baby Wipes')">Baby Wipes</div>
-          <div class="quiz-opt" onclick="answerTrivia(1,this,'Baby Lotion')">Baby Lotion</div>
-          <div class="quiz-opt" onclick="answerTrivia(1,this,'Wet Cloth')">Wet Cloth</div>
-          <div class="quiz-opt" onclick="answerTrivia(1,this,'Tissue Paper')">Tissue Paper</div>
-        </div>
-      </div>
-      <!-- TQ2 -->
-      <div class="quiz-q" id="tq2">
-        <div class="q-text">2. Keeps a baby's nails short and safe, preventing scratches on their face.<br><span style="font-size:0.8rem;color:var(--teal);font-family:'Space Mono',monospace">🔀 Anagram: <strong>YABB LIAN MERMRIT</strong></span></div>
-        <div class="quiz-options">
-          <div class="quiz-opt" onclick="answerTrivia(2,this,'Baby Nail Trimmer')">Baby Nail Trimmer</div>
-          <div class="quiz-opt" onclick="answerTrivia(2,this,'Baby Brush')">Baby Brush</div>
-          <div class="quiz-opt" onclick="answerTrivia(2,this,'Small Scissors')">Small Scissors</div>
-          <div class="quiz-opt" onclick="answerTrivia(2,this,'Nail File')">Nail File</div>
-        </div>
-      </div>
-      <!-- TQ3 -->
-      <div class="quiz-q" id="tq3">
-        <div class="q-text">3. Used by parents to check a baby's temperature safely and accurately.<br><span style="font-size:0.8rem;color:var(--teal);font-family:'Space Mono',monospace">🔀 Anagram: <strong>LAGITID YABB METROMHETER</strong></span></div>
-        <div class="quiz-options">
-          <div class="quiz-opt" onclick="answerTrivia(3,this,'Digital Baby Thermometer')">Digital Baby Thermometer</div>
-          <div class="quiz-opt" onclick="answerTrivia(3,this,'Forehead Strip')">Forehead Strip</div>
-          <div class="quiz-opt" onclick="answerTrivia(3,this,'Bath Thermometer')">Bath Thermometer</div>
-          <div class="quiz-opt" onclick="answerTrivia(3,this,'Fever Patch')">Fever Patch</div>
-        </div>
-      </div>
-      <!-- TQ4 -->
-      <div class="quiz-q" id="tq4">
-        <div class="q-text">4. Soft absorbent cloth used to protect parents' shoulders during burping time.<br><span style="font-size:0.8rem;color:var(--teal);font-family:'Space Mono',monospace">🔀 Anagram: <strong>RUPB HOTLC</strong></span></div>
-        <div class="quiz-options">
-          <div class="quiz-opt" onclick="answerTrivia(4,this,'Burp Cloth')">Burp Cloth</div>
-          <div class="quiz-opt" onclick="answerTrivia(4,this,'Baby Bib')">Baby Bib</div>
-          <div class="quiz-opt" onclick="answerTrivia(4,this,'Muslin Cloth')">Muslin Cloth</div>
-          <div class="quiz-opt" onclick="answerTrivia(4,this,'Hand Towel')">Hand Towel</div>
-        </div>
-      </div>
-      <!-- TQ5 -->
-      <div class="quiz-q" id="tq5">
-        <div class="q-text">5. Helps soothe teething discomfort and is often made of silicone.<br><span style="font-size:0.8rem;color:var(--teal);font-family:'Space Mono',monospace">🔀 Anagram: <strong>TREEHE</strong></span></div>
-        <div class="quiz-options">
-          <div class="quiz-opt" onclick="answerTrivia(5,this,'Teether')">Teether</div>
-          <div class="quiz-opt" onclick="answerTrivia(5,this,'Pacifier')">Pacifier</div>
-          <div class="quiz-opt" onclick="answerTrivia(5,this,'Rattle')">Rattle</div>
-          <div class="quiz-opt" onclick="answerTrivia(5,this,'Chew Toy')">Chew Toy</div>
-        </div>
-      </div>
-      <!-- TQ6 -->
-      <div class="quiz-q" id="tq6">
-        <div class="q-text">6. Used to gently remove mucus from a baby's nose.<br><span style="font-size:0.8rem;color:var(--teal);font-family:'Space Mono',monospace">🔀 Anagram: <strong>NASLA TRAROSIPA</strong></span></div>
-        <div class="quiz-options">
-          <div class="quiz-opt" onclick="answerTrivia(6,this,'Nasal Aspirator')">Nasal Aspirator</div>
-          <div class="quiz-opt" onclick="answerTrivia(6,this,'Cotton Swab')">Cotton Swab</div>
-          <div class="quiz-opt" onclick="answerTrivia(6,this,'Saline Spray')">Saline Spray</div>
-          <div class="quiz-opt" onclick="answerTrivia(6,this,'Nose Drops')">Nose Drops</div>
-        </div>
-      </div>
-      <!-- TQ7 -->
-      <div class="quiz-q" id="tq7">
-        <div class="q-text">7. Used to carry diapers, wipes, bottles and clothes when going out.<br><span style="font-size:0.8rem;color:var(--teal);font-family:'Space Mono',monospace">🔀 Anagram: <strong>PARDIE GAB</strong></span></div>
-        <div class="quiz-options">
-          <div class="quiz-opt" onclick="answerTrivia(7,this,'Diaper Bag')">Diaper Bag</div>
-          <div class="quiz-opt" onclick="answerTrivia(7,this,'Stroller Bag')">Stroller Bag</div>
-          <div class="quiz-opt" onclick="answerTrivia(7,this,'Backpack')">Backpack</div>
-          <div class="quiz-opt" onclick="answerTrivia(7,this,'Tote Bag')">Tote Bag</div>
-        </div>
-      </div>
-      <!-- TQ8 -->
-      <div class="quiz-q" id="tq8">
-        <div class="q-text">8. Soft wearable item that keeps a baby warm, often used right after bath time.<br><span style="font-size:0.8rem;color:var(--teal);font-family:'Space Mono',monospace">🔀 Anagram: <strong>YABB ODDEH LEWOT</strong></span></div>
-        <div class="quiz-options">
-          <div class="quiz-opt" onclick="answerTrivia(8,this,'Baby Hooded Towel')">Baby Hooded Towel</div>
-          <div class="quiz-opt" onclick="answerTrivia(8,this,'Baby Blanket')">Baby Blanket</div>
-          <div class="quiz-opt" onclick="answerTrivia(8,this,'Baby Robe')">Baby Robe</div>
-          <div class="quiz-opt" onclick="answerTrivia(8,this,'Sleep Sack')">Sleep Sack</div>
-        </div>
-      </div>
-    </div>
-
-    <div style="text-align:center;margin-top:16px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-      <button class="btn-sm" onclick="checkTrivia()">Submit Answers 🍼</button>
-      <button class="btn-sm" onclick="resetTrivia()" style="background:rgba(255,255,255,0.05);">🔄 Reset</button>
-    </div>
-
-    <div class="feedback" id="triviaFeedback"></div>
-
-    <div class="quest-complete-banner" id="q2Banner">
-      <div>🎉 Quest Complete! Your word is...</div>
-      <div class="word-reveal" id="q2Word"></div>
-    </div>
-  </div>
-</div>
-
-<!-- ════════════════════════════════════════
-     SCREEN 5: QUEST 3 – BET ON YOUR BABY
-════════════════════════════════════════ -->
-<div class="screen" id="quest3">
-  <button class="back-btn" onclick="showScreen('hub')">← Hub</button>
-  <div class="quest-screen">
-    <div class="quest-header">
-      <div class="quest-number">QUEST 03</div>
-      <div class="quest-title">🎯 Bet on Your Baby</div>
-      <div class="quest-desc">Guess the price of each baby item in AED! Get at least 3 right to unlock the secret word.</div>
-    </div>
-
-    <div class="score-display">Score: <span id="priceScore">0</span> / 5</div>
-
-    <div id="priceQuestions">
-      <!-- PQ1 -->
-      <div class="quiz-q" id="pq1">
-        <div class="q-text">🧷 How much is <strong>1 pack of Diapers</strong>?</div>
-        <div class="quiz-options">
-          <div class="quiz-opt" onclick="answerPrice(1,this,'30 AED')">30 AED</div>
-          <div class="quiz-opt" onclick="answerPrice(1,this,'50 AED')">50 AED</div>
-          <div class="quiz-opt" onclick="answerPrice(1,this,'75 AED')">75 AED</div>
-          <div class="quiz-opt" onclick="answerPrice(1,this,'100 AED')">100 AED</div>
-        </div>
-      </div>
-      <!-- PQ2 -->
-      <div class="quiz-q" id="pq2">
-        <div class="q-text">🍼 How much is a can of <strong>Milk Formula</strong>?</div>
-        <div class="quiz-options">
-          <div class="quiz-opt" onclick="answerPrice(2,this,'50 AED')">50 AED</div>
-          <div class="quiz-opt" onclick="answerPrice(2,this,'80 AED')">80 AED</div>
-          <div class="quiz-opt" onclick="answerPrice(2,this,'120 AED')">120 AED</div>
-          <div class="quiz-opt" onclick="answerPrice(2,this,'200 AED')">200 AED</div>
-        </div>
-      </div>
-      <!-- PQ3 -->
-      <div class="quiz-q" id="pq3">
-        <div class="q-text">🧻 How much is a pack of <strong>Baby Wipes</strong>?</div>
-        <div class="quiz-options">
-          <div class="quiz-opt" onclick="answerPrice(3,this,'5 AED')">5 AED</div>
-          <div class="quiz-opt" onclick="answerPrice(3,this,'10 AED')">10 AED</div>
-          <div class="quiz-opt" onclick="answerPrice(3,this,'20 AED')">20 AED</div>
-          <div class="quiz-opt" onclick="answerPrice(3,this,'35 AED')">35 AED</div>
-        </div>
-      </div>
-      <!-- PQ4 -->
-      <div class="quiz-q" id="pq4">
-        <div class="q-text">📄 How much does a <strong>Baby Visa</strong> cost?</div>
-        <div class="quiz-options">
-          <div class="quiz-opt" onclick="answerPrice(4,this,'500 AED')">500 AED</div>
-          <div class="quiz-opt" onclick="answerPrice(4,this,'800 AED')">800 AED</div>
-          <div class="quiz-opt" onclick="answerPrice(4,this,'1200 AED')">1,200 AED</div>
-          <div class="quiz-opt" onclick="answerPrice(4,this,'2000 AED')">2,000 AED</div>
-        </div>
-      </div>
-      <!-- PQ5 -->
-      <div class="quiz-q" id="pq5">
-        <div class="q-text">🧴 How much is <strong>Cetaphil Baby Shampoo</strong>?</div>
-        <div class="quiz-options">
-          <div class="quiz-opt" onclick="answerPrice(5,this,'35 AED')">35 AED</div>
-          <div class="quiz-opt" onclick="answerPrice(5,this,'55 AED')">55 AED</div>
-          <div class="quiz-opt" onclick="answerPrice(5,this,'70 AED')">70 AED</div>
-          <div class="quiz-opt" onclick="answerPrice(5,this,'90 AED')">90 AED</div>
-        </div>
-      </div>
-    </div>
-
-    <div style="text-align:center;margin-top:16px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-      <button class="btn-sm" onclick="checkPrice()">Submit Guesses 🎯</button>
-      <button class="btn-sm" onclick="resetPrice()" style="background:rgba(255,255,255,0.05);">🔄 Reset</button>
-    </div>
-
-    <div class="feedback" id="priceFeedback"></div>
-
-    <div class="quest-complete-banner" id="q3Banner">
-      <div>🎉 Quest Complete! Your word is...</div>
-      <div class="word-reveal" id="q3Word"></div>
-    </div>
-  </div>
-</div>
-
-<!-- ════════════════════════════════════════
-     SCREEN 6: QUEST 4 – WHO'S MOST LIKELY
-════════════════════════════════════════ -->
-<div class="screen" id="quest4">
-  <button class="back-btn" onclick="showScreen('hub')">← Hub</button>
-  <div class="quest-screen">
-    <div class="quest-header">
-      <div class="quest-number">QUEST 04</div>
-      <div class="quest-title">👶 Who's Most Likely?</div>
-      <div class="quest-desc">For each question, vote: Papi or Momma? Match all correct answers to unlock the code!</div>
-    </div>
-
-    <div class="score-display">Score: <span id="likelyScore">0</span> / 10</div>
-
-    <div id="likelyQuestions">
-      <div class="quiz-q" id="lq1">
-        <div class="q-text">1. Who's most likely to <strong>spoil the baby</strong>?</div>
-        <div class="quiz-options" style="flex-direction:row;justify-content:center;gap:16px">
-          <div class="quiz-opt" style="min-width:120px;text-align:center" onclick="answerLikely(1,this,'Papi')">😎 Papi</div>
-          <div class="quiz-opt" style="min-width:120px;text-align:center" onclick="answerLikely(1,this,'Momma')">💕 Momma</div>
-        </div>
-      </div>
-      <div class="quiz-q" id="lq2">
-        <div class="q-text">2. Who's most likely to <strong>wake up first when the baby cries</strong>?</div>
-        <div class="quiz-options" style="flex-direction:row;justify-content:center;gap:16px">
-          <div class="quiz-opt" style="min-width:120px;text-align:center" onclick="answerLikely(2,this,'Papi')">😎 Papi</div>
-          <div class="quiz-opt" style="min-width:120px;text-align:center" onclick="answerLikely(2,this,'Momma')">💕 Momma</div>
-        </div>
-      </div>
-      <div class="quiz-q" id="lq3">
-        <div class="q-text">3. Who's most likely to <strong>take more baby pictures</strong>?</div>
-        <div class="quiz-options" style="flex-direction:row;justify-content:center;gap:16px">
-          <div class="quiz-opt" style="min-width:120px;text-align:center" onclick="answerLikely(3,this,'Papi')">😎 Papi</div>
-          <div class="quiz-opt" style="min-width:120px;text-align:center" onclick="answerLikely(3,this,'Momma')">💕 Momma</div>
-        </div>
-      </div>
-      <div class="quiz-q" id="lq4">
-        <div class="q-text">4. Who's most likely to <strong>forget where they put the diaper bag</strong>?</div>
-        <div class="quiz-options" style="flex-direction:row;justify-content:center;gap:16px">
-          <div class="quiz-opt" style="min-width:120px;text-align:center" onclick="answerLikely(4,this,'Papi')">😎 Papi</div>
-          <div class="quiz-opt" style="min-width:120px;text-align:center" onclick="answerLikely(4,this,'Momma')">💕 Momma</div>
-        </div>
-      </div>
-      <div class="quiz-q" id="lq5">
-        <div class="q-text">5. Who's most likely to <strong>cry during the baby's first day of school</strong>?</div>
-        <div class="quiz-options" style="flex-direction:row;justify-content:center;gap:16px">
-          <div class="quiz-opt" style="min-width:120px;text-align:center" onclick="answerLikely(5,this,'Papi')">😎 Papi</div>
-          <div class="quiz-opt" style="min-width:120px;text-align:center" onclick="answerLikely(5,this,'Momma')">💕 Momma</div>
-        </div>
-      </div>
-      <div class="quiz-q" id="lq6">
-        <div class="q-text">6. Who's most likely to <strong>dress the baby in mismatched clothes</strong>?</div>
-        <div class="quiz-options" style="flex-direction:row;justify-content:center;gap:16px">
-          <div class="quiz-opt" style="min-width:120px;text-align:center" onclick="answerLikely(6,this,'Papi')">😎 Papi</div>
-          <div class="quiz-opt" style="min-width:120px;text-align:center" onclick="answerLikely(6,this,'Momma')">💕 Momma</div>
-        </div>
-      </div>
-      <div class="quiz-q" id="lq7">
-        <div class="q-text">7. Who's most likely to <strong>fall asleep during story time</strong>?</div>
-        <div class="quiz-options" style="flex-direction:row;justify-content:center;gap:16px">
-          <div class="quiz-opt" style="min-width:120px;text-align:center" onclick="answerLikely(7,this,'Papi')">😎 Papi</div>
-          <div class="quiz-opt" style="min-width:120px;text-align:center" onclick="answerLikely(7,this,'Momma')">💕 Momma</div>
-        </div>
-      </div>
-      <div class="quiz-q" id="lq8">
-        <div class="q-text">8. Who's most likely to <strong>buy unnecessary baby toys</strong>?</div>
-        <div class="quiz-options" style="flex-direction:row;justify-content:center;gap:16px">
-          <div class="quiz-opt" style="min-width:120px;text-align:center" onclick="answerLikely(8,this,'Papi')">😎 Papi</div>
-          <div class="quiz-opt" style="min-width:120px;text-align:center" onclick="answerLikely(8,this,'Momma')">💕 Momma</div>
-        </div>
-      </div>
-      <div class="quiz-q" id="lq9">
-        <div class="q-text">9. Who's most likely to <strong>teach the baby silly dances</strong>?</div>
-        <div class="quiz-options" style="flex-direction:row;justify-content:center;gap:16px">
-          <div class="quiz-opt" style="min-width:120px;text-align:center" onclick="answerLikely(9,this,'Papi')">😎 Papi</div>
-          <div class="quiz-opt" style="min-width:120px;text-align:center" onclick="answerLikely(9,this,'Momma')">💕 Momma</div>
-        </div>
-      </div>
-      <div class="quiz-q" id="lq10">
-        <div class="q-text">10. Who's most likely to <strong>panic over a tiny sneeze</strong>?</div>
-        <div class="quiz-options" style="flex-direction:row;justify-content:center;gap:16px">
-          <div class="quiz-opt" style="min-width:120px;text-align:center" onclick="answerLikely(10,this,'Papi')">😎 Papi</div>
-          <div class="quiz-opt" style="min-width:120px;text-align:center" onclick="answerLikely(10,this,'Momma')">💕 Momma</div>
-        </div>
-      </div>
-    </div>
-
-    <div style="text-align:center;margin-top:16px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-      <button class="btn-sm" onclick="checkLikely()">Submit Answers 👶</button>
-      <button class="btn-sm" onclick="resetLikely()" style="background:rgba(255,255,255,0.05);">🔄 Reset</button>
-    </div>
-
-    <div class="feedback" id="likelyFeedback"></div>
-
-    <div class="quest-complete-banner" id="q4Banner">
-      <div>🎉 Quest Complete! Your word is...</div>
-      <div class="word-reveal" id="q4Word"></div>
-    </div>
-  </div>
-</div>
-
-<!-- ════════════════════════════════════════
-     SCREEN 7: FINAL QUEST
-════════════════════════════════════════ -->
-<div class="screen" id="finalQuest">
-  <button class="back-btn" onclick="showScreen('hub')">← Hub</button>
-  <div class="quest-screen" style="text-align:center">
-    <div class="quest-header">
-      <div class="quest-number">FINAL QUEST</div>
-      <div class="quest-title" style="color:var(--rose)">🔓 The Baby Code</div>
-      <div class="quest-desc">Enter all 4 words you've collected to unlock the truth...</div>
-    </div>
-
-    <div class="hint-box">
-      💡 <strong>Hints for the 4 words:</strong><br>
-      <div style="margin-top:8px;font-size:0.8rem;color:#d0c090;line-height:2">
-        🔑 Quest 1: Father's birth month<br>
-        🔑 Quest 2: Mother's birth month<br>
-        🔑 Quest 3: First pregnancy craving<br>
-        🔑 Quest 4: Age when got pregnant (number)
-      </div>
-      <div id="finalCollectedWords" style="margin-top:12px;font-family:'Space Mono',monospace;color:var(--gold);font-size:0.9rem;">
-        Complete quests to auto-fill ↓
-      </div>
-    </div>
-
-    <p style="color:#9080b0;font-size:0.85rem;margin-bottom:12px;">Type your 4 collected words:</p>
-    <div class="final-code-input">
-      <input class="code-word-input" id="cw1" placeholder="Word 1" oninput="this.value=this.value.toUpperCase()"/>
-      <input class="code-word-input" id="cw2" placeholder="Word 2" oninput="this.value=this.value.toUpperCase()"/>
-      <input class="code-word-input" id="cw3" placeholder="Word 3" oninput="this.value=this.value.toUpperCase()"/>
-      <input class="code-word-input" id="cw4" placeholder="Word 4" oninput="this.value=this.value.toUpperCase()"/>
-    </div>
-
-    <button class="btn btn-primary" onclick="checkFinalCode()" style="margin-top:16px">
-      🔓 UNLOCK THE BABY CODE
-    </button>
-
-    <div class="feedback" id="finalFeedback"></div>
-  </div>
-</div>
-
-<!-- ════════════════════════════════════════
-     SCREEN 8: REVEAL
-════════════════════════════════════════ -->
-<div class="screen" id="revealScreen">
-  <div id="revealCountdownPhase" style="text-align:center">
-    <h2 style="font-family:'Cinzel Decorative',serif;color:var(--gold);font-size:1.3rem;margin-bottom:10px">
-      The moment has arrived...
-    </h2>
-    <p style="color:#b0a0d0;font-style:italic;margin-bottom:20px">Get ready for the big reveal!</p>
-    <div class="countdown-ring" id="countdownNum">10</div>
-
-    <div class="spin-container" id="spinContainer" style="display:none">
-      <div class="spin-track" id="spinTrack">
-        <!-- items injected by JS -->
-      </div>
-    </div>
-  </div>
-
-  <div class="big-reveal" id="bigReveal">
-    <div class="reveal-emoji">👶🌸💕</div>
-    <div class="reveal-gender">IT'S A GIRL!</div>
-    <div class="reveal-sub">Papi Ramon & Momma Alyn's little princess is on her way! 🎀</div>
-    <br>
-    <p style="color:#f9b8d4;font-size:0.9rem;margin-top:10px;">
-      Ninong Pogi, Ninang Wishelle & Ninang She — welcome your goddaughter! 💗
-    </p>
-  </div>
-</div>
-
-<!-- ════════════════════════════════════════
-     JAVASCRIPT
-════════════════════════════════════════ -->
 <script>
-// ─── CONFIG ───
-// Replace with your Google Apps Script Web App URL
-const SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
-
-// ─── ANSWERS (the secret words from each quest) ───
-const QUEST_WORDS = {
-  1: 'SEPTEMBER',  // Q1 Lullaby  — hint: father's birth month
-  2: 'FEBRUARY',   // Q2 Toolkit  — hint: mother's birth month
-  3: 'SINGKAMAS',  // Q3 Bet      — hint: first pregnancy cravings
-  4: '29'          // Q4 Likely   — hint: age got pregnant
-};
-
-// Final code = all 4 words combined (order doesn't matter, we check set)
-const FINAL_WORDS_SET = Object.values(QUEST_WORDS).map(w=>w.toUpperCase());
-
-// ─── STATE ───
+// --- STATE MANAGEMENT ---
 const state = {
-  completed: {1:false, 2:false, 3:false, 4:false},
-  collectedWords: {},
+  completed: { 1: false, 2: false, 3: false, 4: false },
+  q1Tries: 3,
+  config: {
+    gender: 'BOY',
+    customMessage: 'Maligayang pagdating sa ating munting anghel!',
+    playerKey: 'BABY2026',
+    gmKey: 'RAMON2026' // Default GM password upang makapasok sa panel
+  }
 };
 
-// ─── STARFIELD ───
-(function(){
-  const sf = document.getElementById('starfield');
-  for(let i=0;i<120;i++){
-    const s = document.createElement('div');
-    s.className='star';
-    const size = Math.random()*2.5+0.5;
-    s.style.cssText=`width:${size}px;height:${size}px;top:${Math.random()*100}%;left:${Math.random()*100}%;
-      --d:${Math.random()*4+2}s;--o:${Math.random()*0.7+0.3};animation-delay:${Math.random()*5}s`;
-    sf.appendChild(s);
-  }
-})();
-
-// ─── SCREEN NAV ───
-function showScreen(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  if(id==='hub') updateHub();
-  if(id==='finalQuest') updateFinalHints();
-  window.scrollTo(0,0);
+// --- NAVIGATION ---
+function showScreen(screenId) {
+  document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
+  const target = document.getElementById('screen-' + screenId);
+  if(target) target.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function showQuest(n){
-  showScreen('quest'+n);
-  // If already completed, show banner
-  if(state.completed[n]) showQuestComplete(n);
-}
-
-// ─── HUB UPDATE ───
-function updateHub(){
-  const completed = Object.values(state.completed).filter(Boolean).length;
-  document.getElementById('hubProgress').style.width = (completed/4*100)+'%';
-  document.getElementById('hubProgressText').textContent = completed+' / 4 Quests Complete';
-
-  // Update buttons
-  for(let i=1;i<=4;i++){
-    const btn = document.getElementById('q'+i+'btn');
-    if(state.completed[i]){
-      btn.className='btn btn-quest completed';
-      btn.textContent = btn.textContent.replace('🔒','') + ' ✓';
-    }
-  }
-
-  // Collected words display
-  const cw = document.getElementById('collectedWordsHub');
-  cw.innerHTML='';
-  for(let i=1;i<=4;i++){
-    if(state.collectedWords[i]){
-      cw.innerHTML+=`<span class="word-chip">${state.collectedWords[i]}</span>`;
-    } else {
-      cw.innerHTML+=`<span class="word-placeholder">Word ${i}</span>`;
-    }
-  }
-
-  // Final quest button
-  const fb = document.getElementById('finalBtn');
-  if(completed===4){
-    fb.classList.remove('locked');
-    fb.style.borderColor='var(--rose)';
-    fb.style.color='var(--rose)';
-  }
-}
-
-// ─── QUEST COMPLETE ───
-function showQuestComplete(n){
-  const banner = document.getElementById('q'+n+'Banner');
-  const wordEl = document.getElementById('q'+n+'Word');
-  if(banner && wordEl){
-    wordEl.textContent = state.collectedWords[n] || QUEST_WORDS[n];
-    banner.classList.add('show');
-  }
-}
-
-function completeQuest(n){
-  if(state.completed[n]) return;
-  state.completed[n] = true;
-  state.collectedWords[n] = QUEST_WORDS[n];
-  showQuestComplete(n);
-  saveProgress();
-  showToast('🎉 Word collected: ' + QUEST_WORDS[n]);
-}
-
-// ─── TOAST ───
-function showToast(msg){
+// --- TOAST NOTIFICATION ---
+function showToast(msg) {
   const t = document.getElementById('toast');
-  t.textContent=msg; t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),3000);
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
 }
 
-// ─── FEEDBACK ───
-function showFeedback(id, msg, type){
-  const el = document.getElementById(id);
-  el.textContent=msg; el.className='feedback '+type;
-}
+// --- QUEST 1 LOGIC ---
+function checkQuest1() {
+  if (state.completed[1]) {
+    showToast('Nalampasan na ang Quest 1!');
+    showScreen('quest2');
+    return;
+  }
+  if (state.q1Tries <= 0) {
+    document.getElementById('q1-error').textContent = "Wala na kayong natitirang subok. Humingi ng tulong sa Game Master!";
+    return;
+  }
 
-// ════ QUEST 1: LULLABY / SONG QUEST ════
-const songQState = { 1: false, 2: false, 3: false };
+  // Answers Extraction & Normalization
+  const s1 = document.getElementById('q1-s1').value.trim().toLowerCase();
+  
+  const s2_q1 = document.getElementById('q1-s2-q1').value.trim().toLowerCase();
+  const s2_q2 = document.getElementById('q1-s2-q2').value.trim().toLowerCase();
+  const s2_q3 = document.getElementById('q1-s2-q3').value.trim().toLowerCase();
+  
+  const s3_1 = document.getElementById('q1-s3-1').value.trim().toLowerCase();
+  const s3_2 = document.getElementById('q1-s3-2').value.trim().toLowerCase();
+  const s3_3 = document.getElementById('q1-s3-3').value.trim().toLowerCase();
+  const s3_4 = document.getElementById('q1-s3-4').value.trim().toLowerCase();
+  const s3_5 = document.getElementById('q1-s3-5').value.trim().toLowerCase();
+  const s3_6 = document.getElementById('q1-s3-6').value.trim().toLowerCase();
+  const s3_7 = document.getElementById('q1-s3-7').value.trim().toLowerCase();
 
-function switchSong(n){
-  [1,2,3].forEach(i=>{
-    document.getElementById('spanel'+i).style.display = (i===n)?'block':'none';
-    const step = document.getElementById('sstep'+i);
-    step.classList.remove('active');
-    if(songQState[i]) step.classList.add('done');
-  });
-  document.getElementById('sstep'+n).classList.add('active');
-}
+  // Validation Checks
+  // Song 1: Pig, Duck, Horse, Sheep, Cow, Turkey
+  const animalsArr = s1.split(',').map(s => s.trim());
+  const s1Correct = animalsArr.length === 6 &&
+                    animalsArr[0] === 'pig' &&
+                    animalsArr[1] === 'duck' &&
+                    animalsArr[2] === 'horse' &&
+                    animalsArr[3] === 'sheep' &&
+                    animalsArr[4] === 'cow' &&
+                    animalsArr[5] === 'turkey';
 
-function revealSongQ(n){
-  document.getElementById('sq'+n).style.display='block';
-  document.getElementById('sq'+n+'trigger').style.display='none';
-}
+  // Song 2: Jill, bath, yellow
+  const s2Correct = (s2_q1 === 'jill') && 
+                    (s2_q2 === 'bath' || s2_q2 === 'pampaligo' || s2_q2 === 'panligo') && 
+                    (s2_q3 === 'yellow' || s2_q3 === 'dilaw');
 
-// Song 1: Old McDonald — correct answer is 5 (commonly counted: cow, pig, duck, horse, sheep)
-function checkSongQ(songNum, el, answer){
-  const feedbackId = 'sq'+songNum+'Feedback';
-  const correctAnswers = { 1:'5', 3:'Hammock' };
-  const correct = correctAnswers[songNum];
+  // Song 3: magmaliw, inang, duyan, himbing, tala, tanod, dusa
+  const s3Correct = (s3_1 === 'magmaliw') &&
+                    (s3_2 === 'inang') &&
+                    (s3_3 === 'duyan') &&
+                    (s3_4 === 'himbing') &&
+                    (s3_5 === 'tala') &&
+                    (s3_6 === 'tanod') &&
+                    (s3_7 === 'dusa');
 
-  // Disable all buttons in this group
-  el.closest('.sq-options').querySelectorAll('.answer-btn').forEach(b=>{
-    b.style.pointerEvents='none';
-    if(b.textContent.trim()===correct) b.classList.add('correct');
-  });
-
-  if(answer===correct){
-    showFeedback(feedbackId,'✨ Correct! Great job! Move to the next song 🎵','success');
-    songQState[songNum]=true;
-    document.getElementById('sstep'+songNum).classList.add('done');
-    el.classList.add('correct');
-    checkAllSongsDone();
+  if (s1Correct && s2Correct && s3Correct) {
+    state.completed[1] = true;
+    document.getElementById('q1-error').textContent = "";
+    showToast('🎉 Tama ang lahat ng sagot sa Quest 1!');
+    showScreen('quest2');
   } else {
-    el.classList.add('wrong');
-    showFeedback(feedbackId,'Not quite! The right answer is highlighted above 👆','error');
-    // Still mark as attempted and allow moving on
-    setTimeout(()=>{ songQState[songNum]=true; document.getElementById('sstep'+songNum).classList.add('done'); checkAllSongsDone(); },1500);
-  }
-}
-
-function checkBusDriver(){
-  if(songQState[2]) return;
-  const val = document.getElementById('busDriverInput').value.trim();
-  const feedbackId = 'sq2Feedback';
-  if(!val){ showFeedback(feedbackId,'Please type the driver\'s name!','info'); return; }
-  if(val.toLowerCase()==='iftaqar'){
-    showFeedback(feedbackId,'🚌 That\'s right! Iftaqar is the driver! Move to the next song 🎵','success');
-    songQState[2]=true;
-    document.getElementById('sstep2').classList.add('done');
-    document.getElementById('busDriverInput').style.borderColor='var(--teal)';
-    checkAllSongsDone();
-  } else {
-    showFeedback(feedbackId,'Hmm, not the right name! Think about who\'s behind the wheel... 🚌','error');
-    // After 2 wrong tries still allow progress
-    songQState[2]=true;
-    setTimeout(()=>{ document.getElementById('sstep2').classList.add('done'); checkAllSongsDone(); },2000);
-  }
-}
-
-function checkAllSongsDone(){
-  if(songQState[1] && songQState[2] && songQState[3]){
-    setTimeout(()=>{
-      completeQuest(1);
-    },800);
-  }
-}
-
-function resetLullaby(){
-  Object.keys(songQState).forEach(k=>{ songQState[k]=false; });
-  [1,2,3].forEach(i=>{
-    document.getElementById('sq'+i).style.display='none';
-    document.getElementById('sq'+i+'trigger').style.display='block';
-    const feedback = document.getElementById('sq'+i+'Feedback');
-    if(feedback) feedback.className='feedback';
-    const step = document.getElementById('sstep'+i);
-    step.classList.remove('active','done');
-  });
-  // Reset answer buttons
-  document.querySelectorAll('.answer-btn').forEach(b=>{
-    b.className='answer-btn'; b.style.pointerEvents='';
-  });
-  const busInput = document.getElementById('busDriverInput');
-  if(busInput){ busInput.value=''; busInput.style.borderColor=''; }
-  document.getElementById('sq2Feedback') && (document.getElementById('sq2Feedback').className='feedback');
-  switchSong(1);
-  document.getElementById('q1Banner').classList.remove('show');
-  document.getElementById('q1Word').textContent='';
-}
-
-// ════ QUEST 2: BABY TOOLKIT TRIVIA ════
-const TRIVIA_CORRECT = {
-  1: 'Baby Wipes',
-  2: 'Baby Nail Trimmer',
-  3: 'Digital Baby Thermometer',
-  4: 'Burp Cloth',
-  5: 'Teether',
-  6: 'Nasal Aspirator',
-  7: 'Diaper Bag',
-  8: 'Baby Hooded Towel'
-};
-const triviaAnswered = {};
-let triviaScore = 0;
-
-function answerTrivia(qn, el, answer){
-  if(triviaAnswered[qn]) return;
-  triviaAnswered[qn] = answer;
-  const opts = el.parentElement.querySelectorAll('.quiz-opt');
-  opts.forEach(o=>{
-    if(o.textContent===TRIVIA_CORRECT[qn]) o.classList.add('correct');
-    else if(o===el && answer!==TRIVIA_CORRECT[qn]) o.classList.add('wrong');
-    o.style.pointerEvents='none';
-  });
-  if(answer===TRIVIA_CORRECT[qn]) triviaScore++;
-  document.getElementById('triviaScore').textContent=triviaScore;
-}
-
-function checkTrivia(){
-  if(state.completed[2]) return;
-  const answered = Object.keys(triviaAnswered).length;
-  if(answered<8){ showFeedback('triviaFeedback','Answer all 8 questions first! 🍼','info'); return; }
-  if(triviaScore>=6){
-    showFeedback('triviaFeedback','🍼 Amazing! You scored '+triviaScore+'/8 — you know your baby toolkit!','success');
-    completeQuest(2);
-  } else {
-    showFeedback('triviaFeedback','You scored '+triviaScore+'/8. Need at least 6 to pass. Try again!','error');
-  }
-}
-
-function resetTrivia(){
-  Object.keys(triviaAnswered).forEach(k=>delete triviaAnswered[k]);
-  triviaScore=0;
-  document.getElementById('triviaScore').textContent='0';
-  for(let i=1;i<=8;i++){
-    const opts = document.querySelectorAll('#tq'+i+' .quiz-opt');
-    opts.forEach(o=>{ o.className='quiz-opt'; o.style.pointerEvents=''; });
-  }
-  document.getElementById('triviaFeedback').className='feedback';
-}
-
-// ════ QUEST 3: BET ON YOUR BABY (PRICE GUESSING) ════
-const PRICE_CORRECT = {
-  1: '50 AED',
-  2: '80 AED',
-  3: '10 AED',
-  4: '1200 AED',
-  5: '70 AED'
-};
-const priceAnswered = {};
-let priceScore = 0;
-
-function answerPrice(qn, el, answer){
-  if(priceAnswered[qn]) return;
-  priceAnswered[qn] = answer;
-  const opts = el.parentElement.querySelectorAll('.quiz-opt');
-  opts.forEach(o=>{
-    if(o.textContent.replace(/,/g,'')===PRICE_CORRECT[qn] || o.textContent===PRICE_CORRECT[qn])
-      o.classList.add('correct');
-    else if(o===el && answer!==PRICE_CORRECT[qn]) o.classList.add('wrong');
-    o.style.pointerEvents='none';
-  });
-  const norm = answer.replace(/,/g,'');
-  if(norm===PRICE_CORRECT[qn]) priceScore++;
-  document.getElementById('priceScore').textContent=priceScore;
-}
-
-function checkPrice(){
-  if(state.completed[3]) return;
-  const answered = Object.keys(priceAnswered).length;
-  if(answered<5){ showFeedback('priceFeedback','Guess all 5 prices first! 🎯','info'); return; }
-  if(priceScore>=3){
-    showFeedback('priceFeedback','🎯 You got '+priceScore+'/5! You really know your baby budget!','success');
-    completeQuest(3);
-  } else {
-    showFeedback('priceFeedback','You got '+priceScore+'/5. Need 3 correct to pass — try again!','error');
-  }
-}
-
-function resetPrice(){
-  Object.keys(priceAnswered).forEach(k=>delete priceAnswered[k]);
-  priceScore=0;
-  document.getElementById('priceScore').textContent='0';
-  for(let i=1;i<=5;i++){
-    const opts = document.querySelectorAll('#pq'+i+' .quiz-opt');
-    opts.forEach(o=>{ o.className='quiz-opt'; o.style.pointerEvents=''; });
-  }
-  document.getElementById('priceFeedback').className='feedback';
-}
-
-// ════ QUEST 4: WHO'S MOST LIKELY ════
-const LIKELY_CORRECT = {
-  1: 'Papi',
-  2: 'Momma',
-  3: 'Momma',
-  4: 'Papi',
-  5: 'Momma',
-  6: 'Papi',
-  7: 'Papi',
-  8: 'Papi',
-  9: 'Papi',
-  10: 'Momma'
-};
-const likelyAnswered = {};
-let likelyScore = 0;
-
-function answerLikely(qn, el, answer){
-  if(likelyAnswered[qn]) return;
-  likelyAnswered[qn] = answer;
-  const opts = el.parentElement.querySelectorAll('.quiz-opt');
-  opts.forEach(o=>{
-    const oVal = o.textContent.includes('Papi') ? 'Papi' : 'Momma';
-    if(oVal===LIKELY_CORRECT[qn]) o.classList.add('correct');
-    else if(o===el && answer!==LIKELY_CORRECT[qn]) o.classList.add('wrong');
-    o.style.pointerEvents='none';
-  });
-  if(answer===LIKELY_CORRECT[qn]) likelyScore++;
-  document.getElementById('likelyScore').textContent=likelyScore;
-}
-
-function checkLikely(){
-  if(state.completed[4]) return;
-  const answered = Object.keys(likelyAnswered).length;
-  if(answered<10){ showFeedback('likelyFeedback','Answer all 10 questions first! 👶','info'); return; }
-  if(likelyScore>=7){
-    showFeedback('likelyFeedback','👶 You got '+likelyScore+'/10! You know Papi & Momma so well!','success');
-    completeQuest(4);
-  } else {
-    showFeedback('likelyFeedback','You got '+likelyScore+'/10. Need 7+ to pass — how well do you know them? 😄','error');
-  }
-}
-
-function resetLikely(){
-  Object.keys(likelyAnswered).forEach(k=>delete likelyAnswered[k]);
-  likelyScore=0;
-  document.getElementById('likelyScore').textContent='0';
-  for(let i=1;i<=10;i++){
-    const opts = document.querySelectorAll('#lq'+i+' .quiz-opt');
-    opts.forEach(o=>{ o.className='quiz-opt'; o.style.pointerEvents=''; });
-  }
-  document.getElementById('likelyFeedback').className='feedback';
-}
-
-// ════ FINAL QUEST ════
-function updateFinalHints(){
-  const el = document.getElementById('finalCollectedWords');
-  const words = Object.entries(state.collectedWords)
-    .map(([k,v])=>`Q${k}: <strong>${v}</strong>`).join(' · ');
-  el.innerHTML = words || '<em style="color:#6050a0">No words yet — complete the quests first!</em>';
-
-  // Auto-fill inputs if words collected
-  for(let i=1;i<=4;i++){
-    const inp = document.getElementById('cw'+i);
-    if(state.collectedWords[i]) inp.value = state.collectedWords[i];
-  }
-}
-
-function checkFinalCode(){
-  const inputs = [1,2,3,4].map(i=>document.getElementById('cw'+i).value.trim().toUpperCase());
-  const allFilled = inputs.every(w=>w!=='');
-
-  if(!allFilled){ showFeedback('finalFeedback','Enter all 4 words!','info'); return; }
-
-  const correct = inputs.every(w=>FINAL_WORDS_SET.includes(w));
-  const allUnique = new Set(inputs).size===4;
-
-  if(correct && allUnique){
-    showFeedback('finalFeedback','🔓 CODE ACCEPTED! Initiating reveal sequence...','success');
-    saveReveal();
-    setTimeout(()=>startReveal(),1500);
-  } else {
-    showFeedback('finalFeedback','The code is incorrect. Make sure you have the right words from all 4 quests!','error');
-  }
-}
-
-// ════ REVEAL SEQUENCE ════
-function startReveal(){
-  showScreen('revealScreen');
-  // Build spin track
-  const track = document.getElementById('spinTrack');
-  const items = ['BOY','GIRL','BOY','GIRL','BOY','GIRL','BOY','GIRL','GIRL'];
-  track.innerHTML = items.map((w,i)=>
-    `<div class="spin-item ${w.toLowerCase()}">${w==='BOY'?'💙 BOY':'💗 GIRL'}</div>`
-  ).join('');
-
-  let count = 10;
-  const numEl = document.getElementById('countdownNum');
-  const spinCont = document.getElementById('spinContainer');
-
-  const timer = setInterval(()=>{
-    count--;
-    numEl.textContent=count;
-
-    if(count<=7) {
-      spinCont.style.display='block';
-      // Spin the track
-      const h = 100;
-      const offset = (Math.random()*4|0) * h;
-      document.getElementById('spinTrack').style.transform=`translateY(-${offset}px)`;
+    state.q1Tries--;
+    document.getElementById('q1-attempts-left').textContent = `Natitirang Pagkakataon: ${state.q1Tries} / 3`;
+    
+    if (state.q1Tries <= 0) {
+      document.getElementById('q1-submit-btn').disabled = true;
+      document.getElementById('q1-error').textContent = "❌ Maling sagot. 0 tries left. Naka-lock na ito! Lumapit sa GM.";
+    } else {
+      document.getElementById('q1-error').textContent = "❌ May mali sa inyong mga sagot. Subukan muli!";
     }
+  }
+}
 
-    if(count===0){
-      clearInterval(timer);
-      // Settle on GIRL (index 7 = last GIRL)
-      finalSettle();
+// --- QUEST 2 LOGIC ---
+function completeQuest2() {
+  state.completed[2] = true;
+  showToast('🎉 Mahusay! Tapos na ang Quest 2.');
+  showScreen('quest3');
+}
+
+// --- FINAL REVEAL LOCK ---
+function checkFinalKey() {
+  const inputKey = document.getElementById('finalPassword').value.trim();
+  if(inputKey === state.config.playerKey) {
+    // Execute Final Cosmic Reveal
+    const box = document.getElementById('revealResultBox');
+    const msg = document.getElementById('revealCustomMessage');
+    msg.textContent = state.config.customMessage;
+
+    if(state.config.gender === 'BOY') {
+      box.textContent = "👦 IT'S A BOY! 💙";
+      box.style.color = '#60a0ff';
+      document.body.style.background = 'linear-gradient(to bottom, #0d1b2a, #1b263b, #415a77)';
+    } else {
+      box.textContent = "👧 IT'S A GIRL! 💗";
+      box.style.color = '#ff80b0';
+      document.body.style.background = 'linear-gradient(to bottom, #2a0c1a, #3b1c2a, #5c2c42)';
     }
-  },1000);
-}
-
-function finalSettle(){
-  const track = document.getElementById('spinTrack');
-  // Settle on index 7 (last GIRL = 700px down)
-  track.style.transition='transform 1.5s cubic-bezier(0.25,0.1,0.25,1)';
-  track.style.transform='translateY(-700px)';
-
-  document.getElementById('countdownNum').textContent='🎀';
-
-  setTimeout(()=>{
-    launchConfetti();
-    document.getElementById('bigReveal').classList.add('show');
-    document.getElementById('revealCountdownPhase').style.opacity='0.3';
-  },1800);
-}
-
-function launchConfetti(){
-  const colors=['#f9b8d4','#e8649a','#ffd700','#c9185b','#ffffff','#ff69b4'];
-  for(let i=0;i<80;i++){
-    const c=document.createElement('div');
-    c.className='confetti-piece';
-    const size=Math.random()*12+6;
-    c.style.cssText=`
-      width:${size}px;height:${size}px;
-      background:${colors[Math.random()*colors.length|0]};
-      left:${Math.random()*100}vw;
-      animation-duration:${Math.random()*3+2}s;
-      animation-delay:${Math.random()*0.5}s;
-      transform:rotate(${Math.random()*360}deg);
-    `;
-    document.body.appendChild(c);
-    c.addEventListener('animationend',()=>c.remove());
-  }
-}
-
-// ─── PERSISTENCE (localStorage as backup + Google Sheets) ───
-function saveProgress(){
-  try {
-    localStorage.setItem('brER_state', JSON.stringify({
-      completed: state.completed,
-      collectedWords: state.collectedWords
-    }));
-  } catch(e){}
-
-  // Save to Google Sheets if URL configured
-  if(SCRIPT_URL && SCRIPT_URL !== 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE'){
-    fetch(SCRIPT_URL, {
-      method:'POST',
-      mode:'no-cors',
-      body: JSON.stringify({
-        action:'save',
-        completed: state.completed,
-        collectedWords: state.collectedWords,
-        timestamp: new Date().toISOString()
-      })
-    }).catch(()=>{});
-  }
-}
-
-function saveReveal(){
-  if(SCRIPT_URL && SCRIPT_URL !== 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE'){
-    fetch(SCRIPT_URL, {
-      method:'POST',
-      mode:'no-cors',
-      body: JSON.stringify({
-        action:'reveal',
-        revealed: true,
-        timestamp: new Date().toISOString()
-      })
-    }).catch(()=>{});
-  }
-}
-
-function loadProgress(){
-  try {
-    const saved = localStorage.getItem('brER_state');
-    if(saved){
-      const s = JSON.parse(saved);
-      Object.assign(state.completed, s.completed||{});
-      Object.assign(state.collectedWords, s.collectedWords||{});
-    }
-  } catch(e){}
-}
-
-// ─── COUNTDOWN TIMER ───
-// Unlock: May 26 2026, 20:30:00 Dubai time (UTC+4)
-const UNLOCK_TIME_UTC = new Date('2026-05-26T16:30:00Z'); // 8:30 PM Dubai = 4:30 PM UTC
-
-function updateCountdown(){
-  const now = new Date();
-  const diff = UNLOCK_TIME_UTC - now;
-
-  const countdownBlock = document.getElementById('countdownBlock');
-  const beginBlock = document.getElementById('beginBlock');
-
-  if(diff <= 0){
-    // Unlocked!
-    countdownBlock.style.display = 'none';
-    beginBlock.style.display = 'block';
+    
+    showToast('✨ ANG LIWANAG NG MUNTING BITUIN AY NAHAYAG NA! ✨');
+    showScreen('celestialReveal');
   } else {
-    countdownBlock.style.display = 'block';
-    beginBlock.style.display = 'none';
-
-    const totalSecs = Math.floor(diff / 1000);
-    const days  = Math.floor(totalSecs / 86400);
-    const hours = Math.floor((totalSecs % 86400) / 3600);
-    const mins  = Math.floor((totalSecs % 3600) / 60);
-    const secs  = totalSecs % 60;
-
-    document.getElementById('cd-days').textContent  = String(days).padStart(2,'0');
-    document.getElementById('cd-hours').textContent = String(hours).padStart(2,'0');
-    document.getElementById('cd-mins').textContent  = String(mins).padStart(2,'0');
-    document.getElementById('cd-secs').textContent  = String(secs).padStart(2,'0');
+    document.getElementById('final-error').textContent = "❌ Hindi tugma ang Celestial Key sa tadhana. Subukan muli.";
   }
 }
 
-// Run immediately, then every second
-updateCountdown();
-setInterval(updateCountdown, 1000);
-
-// ─── INIT ───
-loadProgress();
-// Initialize song tabs
-switchSong(1);
-
-
-// ─── GAME MASTER ───
-const GM_CODE = 'plusone';
-let gmForceUnlocked = false;
-
-function openGMLogin(){
-  const modal = document.getElementById('gmModal');
-  modal.style.display = 'flex';
-  document.getElementById('gmCodeInput').value = '';
-  document.getElementById('gmCodeError').textContent = '';
-  setTimeout(()=> document.getElementById('gmCodeInput').focus(), 100);
-}
-
-function closeGMLogin(){
-  document.getElementById('gmModal').style.display = 'none';
-}
-
-function verifyGMCode(){
-  const val = document.getElementById('gmCodeInput').value.trim().toLowerCase();
-  if(val === GM_CODE){
-    closeGMLogin();
-    showGMPanel();
+// --- GAME MASTER PORTAL LOGIC ---
+function checkGMLogin() {
+  const pass = document.getElementById('gmPassword').value;
+  if(pass === state.config.gmKey) {
+    document.getElementById('gmUnlockStatus').textContent = '🔓 GAME MASTER MODE UNLOCKED';
+    document.getElementById('gmUnlockStatus').style.color = '#60e0a0';
+    refreshGMProgress();
+    showScreen('gmDashboard');
+    showToast('🔓 Maligayang pagbabalik, GM!');
   } else {
-    document.getElementById('gmCodeError').textContent = '✗ Incorrect code. Try again.';
-    document.getElementById('gmCodeInput').value = '';
-    document.getElementById('gmCodeInput').focus();
+    showToast('❌ Maling Password para sa GM.');
   }
 }
 
-function showGMPanel(){
-  refreshGMProgress();
-  const status = document.getElementById('gmUnlockStatus');
-  const now = new Date();
-  if(gmForceUnlocked){
-    status.textContent = '✅ Manually unlocked by Game Master';
-    status.style.color = '#60e0a0';
-  } else if(now >= UNLOCK_TIME_UTC){
-    status.textContent = '✅ Unlocked automatically (time reached)';
-    status.style.color = '#60e0a0';
-  } else {
-    const diff = UNLOCK_TIME_UTC - now;
-    const h = Math.floor(diff/3600000);
-    const m = Math.floor((diff%3600000)/60000);
-    status.textContent = '🔒 Locked — opens in ' + h + 'h ' + m + 'm';
-    status.style.color = '#e08080';
+function logoutGM() {
+  document.getElementById('gmPassword').value = '';
+  document.getElementById('gmUnlockStatus').textContent = '🔒 Naka-lock ang System';
+  document.getElementById('gmUnlockStatus').style.color = '#a090b8';
+  showScreen('intro');
+}
+
+function saveGMConfig() {
+  state.config.gender = document.getElementById('gmBabyGender').value;
+  state.config.customMessage = document.getElementById('gmCustomMessage').value;
+  state.config.playerKey = document.getElementById('gmPlayerKey').value;
+  
+  // Bigyan ng bypass o reset ang Quest 1 kapag nag-save ang GM kung gusto nilang i-reset
+  if (state.q1Tries <= 0) {
+    state.q1Tries = 3;
+    document.getElementById('q1-submit-btn').disabled = false;
+    document.getElementById('q1-attempts-left').textContent = `Natitirang Pagkakataon: 3 / 3`;
+    document.getElementById('q1-error').textContent = "";
   }
-  showScreen('gmPanel');
-}
 
-function gmForceUnlock(){
-  gmForceUnlocked = true;
-  // Show begin block on landing
-  document.getElementById('countdownBlock').style.display = 'none';
-  document.getElementById('beginBlock').style.display = 'block';
-  document.getElementById('gmUnlockStatus').textContent = '✅ Manually unlocked by Game Master';
-  document.getElementById('gmUnlockStatus').style.color = '#60e0a0';
-  showToast('🔓 Game unlocked for players!');
-}
-
-function gmForceLock(){
-  gmForceUnlocked = false;
-  // Re-evaluate normally
-  updateCountdown();
-  document.getElementById('gmUnlockStatus').textContent = '🔒 Re-locked. Auto-unlock timer running.';
-  document.getElementById('gmUnlockStatus').style.color = '#e08080';
-  showToast('🔒 Game re-locked!');
+  showToast('💾 Matagumpay na na-save ang mga pagbabago!');
 }
 
 function gmPreview(n){
@@ -1963,10 +512,10 @@ function gmPreview(n){
 function refreshGMProgress(){
   const list = document.getElementById('gmProgressList');
   const names = {
-    1: '🎵 Quest 1 — The Lullaby',
-    2: '🍼 Quest 2 — Baby Toolkit Trivia',
+    1: '🎵 Quest 1 — The Singing Mami & Papi',
+    2: '🍼 Quest 2 — Charades Game',
     3: '🎯 Quest 3 — Bet on Your Baby',
-    4: '👶 Quest 4 — Who's Most Likely?'
+    4: '👶 Quest 4 — Who\'s Most Likely?'
   };
   list.innerHTML = '';
   [1,2,3,4].forEach(n => {
@@ -1974,21 +523,56 @@ function refreshGMProgress(){
     const row = document.createElement('div');
     row.style.cssText = 'display:flex;justify-content:space-between;align-items:center;' +
       'background:rgba(255,255,255,0.03);border-radius:8px;padding:8px 12px;font-size:0.82rem';
-    row.innerHTML = '<span style="color:#c8b8e8">' + names[n] + '</span>' +
-      '<span style="font-family:Space Mono,monospace;color:' + (done ? '#60e0a0' : '#e08080') + '">' +
-      (done ? '✅ Done' : '⏳ Pending') + '</span>';
+    row.innerHTML = `<span style="color:#c8b8e8">${names[n]}</span>` +
+      `<span style="font-family:Space Mono,monospace;color:${done ? '#60e0a0' : '#e08080'}">${done ? 'COMPLETED' : 'LOCKED'}</span>`;
     list.appendChild(row);
   });
 }
 
-function gmResetAll(){
-  if(!confirm('Reset ALL quest progress? This cannot be undone.')) return;
-  [1,2,3,4].forEach(n => { state.completed[n] = false; state.collectedWords[n] = ''; });
-  saveProgress();
-  refreshGMProgress();
-  updateQuestHub && updateQuestHub();
-  showToast('🔄 All quest progress reset!');
+
+// --- BEAUTIFUL AMBIENT STARFIELD ---
+const canvas = document.getElementById('starfield');
+const ctx = canvas.getContext('2d');
+let stars = [];
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  initStars();
 }
+
+function initStars() {
+  stars = [];
+  const numStars = Math.floor((canvas.width * canvas.height) / 3000);
+  for(let i=0; i<numStars; i++) {
+    stars.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      size: Math.random() * 1.5 + 0.5,
+      alpha: Math.random(),
+      speed: Math.random() * 0.02 + 0.005
+    });
+  }
+}
+
+function animateStars() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = '#fff';
+  stars.forEach(s => {
+    s.alpha += s.speed;
+    if(s.alpha > 1 || s.alpha < 0) s.speed = -s.speed;
+    ctx.globalAlpha = Math.max(0, s.alpha);
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.size, 0, Math.PI*2);
+    ctx.fill();
+  });
+  ctx.globalAlpha = 1.0;
+  requestAnimationFrame(animateStars);
+}
+
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+animateStars();
 
 </script>
 </body>
